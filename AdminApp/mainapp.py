@@ -62,13 +62,13 @@ class CIMOS_Admin(customtkinter.CTk):
         #------------------------------------------------------------------------------------------------------
         self.choose_frame = customtkinter.CTkFrame(self, height=200)
         self.choose_frame.grid(row=0, column=0, padx=(240,20) , pady=(170, 120), columnspan=3, sticky="nsew")
-        self.buttonchoose = customtkinter.CTkFrame(self.choose_frame, width=700, height=35, fg_color="#555555")
+        self.buttonchoose = customtkinter.CTkFrame(self.choose_frame, width=700, height=35, fg_color="#666666")
         self.buttonchoose.grid(row=0, column=0, columnspan=3, padx=(20,20) , pady=(240, 40), sticky="nsew")
-        self.empbutton = customtkinter.CTkButton(self.choose_frame, text="Employee", bg_color="#555555", font=customtkinter.CTkFont(size=14, weight="bold"), command=signup_command)
+        self.empbutton = customtkinter.CTkButton(self.choose_frame, text="Employee", bg_color="#666666", font=customtkinter.CTkFont(size=14, weight="bold"), command=signup_command)
         self.empbutton.grid(row=0, column=0, padx=(55,500), pady=(240,40))
-        self.prodbutton = customtkinter.CTkButton(self.choose_frame, text="Product", bg_color="#555555", font=customtkinter.CTkFont(size=14, weight="bold"))
+        self.prodbutton = customtkinter.CTkButton(self.choose_frame, text="Menu", bg_color="#666666", font=customtkinter.CTkFont(size=14, weight="bold"))
         self.prodbutton.grid(row=0, column=0, padx=(30,0), pady=(240,40))
-        self.salesbutton = customtkinter.CTkButton(self.choose_frame, text="Sales", bg_color="#555555", font=customtkinter.CTkFont(size=14, weight="bold"))
+        self.salesbutton = customtkinter.CTkButton(self.choose_frame, text="Sales", bg_color="#666666", font=customtkinter.CTkFont(size=14, weight="bold"))
         self.salesbutton.grid(row=0, column=0, padx=(510,0), pady=(240,40))
         #------------------------------------------------------------------------------------------------------
         self.linedes = tk.Frame(self.choose_frame, width=2, height=220, bg='#555555')
