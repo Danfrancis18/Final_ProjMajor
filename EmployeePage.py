@@ -6,6 +6,16 @@ import os
 from tkcalendar import DateEntry
 import mysql.connector
 
+mydb = mysql.connector.connect(
+    host="localhost",
+    user="root",
+    password="",
+    database="canteenmanagement"
+)
+
+mycursor = mydb.cursor()
+
+
 customtkinter.set_appearance_mode("light")
 
 DIRPATH = os.path.dirname(os.path.abspath(__file__))
@@ -148,7 +158,7 @@ class CIMOS_EmpPage(customtkinter.CTk):
             self.radio_button_2 = customtkinter.CTkRadioButton(self.ep_frame, variable=self.radio_var, value=1, text="Part Time", border_color="#e86161")
             self.radio_button_2.grid(row=2, column=2, padx=(20,20), pady=(10,10), sticky="nw")
         
-            self.jdchoose = customtkinter.CTkOptionMenu(self.viewframe1, dynamic_resizing=False, values=["Manager", "Cashier", "Delivery", "Dishwasher", "Waiter"], button_color="white", button_hover_color="#222222")
+            self.jdchoose = customtkinter.CTkOptionMenu(self.viewframe1, dynamic_resizing=False, values=["Manager", "Cashier", "Delivery", "Dishwasher", "Cleaner", "Cook"], button_color="white", button_hover_color="#222222")
             self.jdchoose.grid(row=0, column=0, padx=(170,20), pady=(190, 110), sticky="nsew")
             self.jdchoose.set("-Choose-")
         
@@ -159,6 +169,8 @@ class CIMOS_EmpPage(customtkinter.CTk):
             self.add2button=customtkinter.CTkButton(self.viewframe1, text="Add Employee", bg_color="transparent", fg_color="#222222", text_color="white", font=customtkinter.CTkFont(size=14, weight="bold"), width=290)
             self.add2button.grid(row=0, column=0, padx=(240,200), pady=(280,20), sticky="ew")
         
+
+
             #employee code, last name, first name, employee type, date hired, job description
         
         #-----------Edit Tab-------------------------------------------------------------------

@@ -1,9 +1,20 @@
 import tkinter as tk
-import tkinter.messagebox
+from tkinter import messagebox
 import customtkinter
 from PIL import Image
 import os
 import mysql.connector
+import bcrypt
+
+mydb = mysql.connector.connect(
+    host="localhost",
+    user="root",
+    password="",
+    database="canteenmanagement"
+)
+
+mycursor = mydb.cursor()
+
 
 customtkinter.set_appearance_mode("Dark")
 
@@ -16,17 +27,7 @@ if os.path.exists(themepath):
 else:
     customtkinter.set_default_color_theme("blue")
 
-    mydb = mysql.connector.connection (
-        host="localhost",
-        user="root",
-        password="",
-        database="canteenmanagement"
-    )
-    mycursor=mydb.cursor()
     
-
-
-
 button_mode = True
 
 class CIMOS_Login(customtkinter.CTk):
@@ -111,8 +112,29 @@ class CIMOS_Login(customtkinter.CTk):
         eyeButton=tk.Button(self.tabview,image=closeeye,border=0,bg="white",command=hide)
         eyeButton.place(x=320,y=330)
         
-        loginbutton = customtkinter.CTkButton(self.tabview, text="Log in", bg_color="transparent", font=customtkinter.CTkFont(size=14, weight="bold"), command = None)
+        def login():
+            username = user.get()
+            password = secret.get()
+            if username != '' and password != '':
+                mycursor.execute('SELECT password FROM logintbl WHERE username=%s', [username])
+                result = mycursor.fetchone()
+                if result:
+                    if bcrypt.checkpw(password.encode('utf-8'), result[0]):
+                        messagebox.showinfo('Success', 'Logged in successfully.')
+                    else:
+                        messagebox.showerror('Error', 'Invalid password.')
+                else:
+                    messagebox.showerror('Error', 'Invalid Username.')
+            else:
+                messagebox.showerror('Error', 'Enter all data.')
+
+
+        loginbutton = customtkinter.CTkButton(self.tabview, text="Log in", bg_color="transparent", font=customtkinter.CTkFont(size=14, weight="bold"), command = login)
         loginbutton.grid(row=0, column=0, padx=(85,0), pady=(320,30))
+
+
+
+        
         
 if __name__ == "__main__":
     app = CIMOS_Login()
