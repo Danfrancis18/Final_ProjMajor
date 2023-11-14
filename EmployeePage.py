@@ -162,8 +162,8 @@ class CIMOS_EmpPage(customtkinter.CTk):
             self.jdchoose.grid(row=0, column=0, padx=(170,20), pady=(190, 110), sticky="nsew")
             self.jdchoose.set("-Choose-")
         
-            self.cal = DateEntry(self.viewframe1, width=12, background='dark-blue',foreground='white', locale='en_US', date_pattern='yyyy/MM/dd')
-            self.cal.grid(row=0, column=0, padx=(180,20), pady=(290,90), sticky="nsew")
+            self.cal = DateEntry(self.viewframe1, width=12, background='#222222',foreground='white', locale='en_US', date_pattern='yyyy/MM/dd')
+            self.cal.grid(row=0, column=0, padx=(180,20), pady=(290,90), sticky="w")
             self.cal.bind("<<DateEntrySelected>>")
             
             self.add2button=customtkinter.CTkButton(self.viewframe1, text="Add Employee", bg_color="transparent", fg_color="#222222", text_color="white", font=customtkinter.CTkFont(size=14, weight="bold"), width=290)
