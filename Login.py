@@ -3,6 +3,7 @@ import tkinter.messagebox
 import customtkinter
 from PIL import Image
 import os
+import mysql.connector
 
 customtkinter.set_appearance_mode("Dark")
 
@@ -14,7 +15,18 @@ if os.path.exists(themepath):
     customtkinter.set_default_color_theme(themepath)
 else:
     customtkinter.set_default_color_theme("blue")
+
+    mydb = mysql.connector.connection (
+        host="localhost",
+        user="root",
+        password="",
+        database="canteenmanagement"
+    )
+    mycursor=mydb.cursor()
     
+
+
+
 button_mode = True
 
 class CIMOS_Login(customtkinter.CTk):
