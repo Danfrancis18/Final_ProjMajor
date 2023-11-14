@@ -14,27 +14,13 @@ if os.path.exists(themepath):
     customtkinter.set_default_color_theme(themepath)
 else:
     customtkinter.set_default_color_theme("blue")
+    
+button_mode = True
 
 class CIMOS_Login(customtkinter.CTk):
     def __init__(self):
         super().__init__()
-        
-        def hide():
-            global button_mode
-    
-            if button_mode:
-                self.eyeButton.config(image=openeye,activebackground="#C2DFFF")
-                self.secret.config(show="")
-                self.button_mode=False
-            else:
-                self.eyeButton.config(image=closeeye,activebackground="#C2DFFF")
-                self.secret.config(show="*")
-                self.button_mode=True
-                
-        self.openeye=tk.PhotoImage(file="show1.png")
-        self.closeeye=tk.PhotoImage(file="hide1.png")
-        self.eyeButton=tk.Button(self.tabview,image=closeeye,border=0,bg="#C2DFFF",command=hide)
-        self.eyeButton.place(x=235,y=132)
+
 
         # configure window class CIMOS_Admin
         self.title("CIMOS Admin")
@@ -55,7 +41,11 @@ class CIMOS_Login(customtkinter.CTk):
         self.tabview.grid(row=0, column=0, padx=(340, 340), pady=(80, 120), sticky="nsew")
         self.profile = customtkinter.CTkImage(Image.open(os.path.join("user.ico")), size=(140,140))
         self.Image_label = customtkinter.CTkLabel(self.tabview, text="", image=self.profile, bg_color="transparent")
-        self.Image_label.grid(row=0, column=0, padx=(90,0), pady=(0,110), sticky="ew")
+        self.Image_label.grid(row=0, column=0, padx=(85,0), pady=(0,120), sticky="ew")
+        
+        self.logo1 = customtkinter.CTkImage(Image.open(os.path.join("logo2.png")), size=(160,40))
+        self.Image_logo1 = customtkinter.CTkLabel(self.tabview, text="", image=self.logo1, bg_color="transparent")
+        self.Image_logo1.grid(row=0, column=0, padx=(85,0), pady=(0,315), sticky="ew")
         
         def on_enter(e):
             user.delete(0,'end')
@@ -66,12 +56,12 @@ class CIMOS_Login(customtkinter.CTk):
                 user.insert(0,'Username')
 
         user = tk.Entry(self.tabview, width = 25, fg = '#566D7E', border=0, bg='white',font=('Microsoft Yahei UI Light',12,'bold'))
-        user.place(x=60, y=255)
+        user.place(x=60, y=285)
         user.insert(0,'Username')
         user.bind('<FocusIn>', on_enter)
         user.bind('<FocusOut>', on_leave)
 
-        tk.Frame(self.tabview, width=290, height=2, bg='#9F0000').place(x=60,y=280)
+        tk.Frame(self.tabview, width=290, height=2, bg='#9F0000').place(x=60,y=310)
         
         #-------------------------------------------------
         def on_enter(e):
@@ -84,14 +74,33 @@ class CIMOS_Login(customtkinter.CTk):
                 secret.insert(0,'Password')
 
         secret = tk.Entry(self.tabview, width = 25, fg = '#566D7E', border=0, bg='white',font=('Microsoft Yahei UI Light',12,'bold'))
-        secret.place(x=60, y=295)
+        secret.place(x=60, y=325)
         secret.insert(0,'Password')
         secret.bind('<FocusIn>', on_enter)
         secret.bind('<FocusOut>', on_leave)
-        tk.Frame(self.tabview, width=290, height=2, bg='#9F0000').place(x=60,y=320)
+        tk.Frame(self.tabview, width=290, height=2, bg='#9F0000').place(x=60,y=350)
         
-        self.loginbutton = customtkinter.CTkButton(self.tabview, text="Log in", bg_color="transparent", font=customtkinter.CTkFont(size=14, weight="bold"), command = None)
-        self.loginbutton.grid(row=0, column=0, padx=(90,0), pady=(300,10))
+        
+        
+        def hide():
+            global button_mode
+    
+            if button_mode:
+                eyeButton.config(image=openeye,activebackground="white")
+                secret.config(show="")
+                button_mode=False
+            else:
+                eyeButton.config(image=closeeye,activebackground="white")
+                secret.config(show="*")
+                button_mode=True
+                
+        openeye=tk.PhotoImage(file="show1.png")
+        closeeye=tk.PhotoImage(file="hide1.png")
+        eyeButton=tk.Button(self.tabview,image=closeeye,border=0,bg="white",command=hide)
+        eyeButton.place(x=320,y=330)
+        
+        loginbutton = customtkinter.CTkButton(self.tabview, text="Log in", bg_color="transparent", font=customtkinter.CTkFont(size=14, weight="bold"), command = None)
+        loginbutton.grid(row=0, column=0, padx=(85,0), pady=(320,30))
         
 if __name__ == "__main__":
     app = CIMOS_Login()
