@@ -45,7 +45,7 @@ class CIMOS_EmpPage(customtkinter.CTk):
         
         def home():
             self.destroy()
-            os.system('python mainapp.py')
+            import mainapp
         
         
         
@@ -139,8 +139,10 @@ class CIMOS_EmpPage(customtkinter.CTk):
             self.ln.grid(row=0, column=0, padx=(60,620), pady=(30,5), sticky="nw")#
             self.fn = customtkinter.CTkLabel(self.viewframe1, text="First Name: ")
             self.fn.grid(row=0, column=0, padx=(60,620), pady=(70,5), sticky="nw")
-            self.ep = customtkinter.CTkLabel(self.viewframe1, text="Employee Type: ")
-            self.ep.grid(row=0, column=0, padx=(60,675), pady=(110,5), sticky="nw")
+            self.ep = customtkinter.CTkLabel(self.viewframe1, text="Address: ")
+            self.ep.grid(row=0, column=0, padx=(60,675), pady=(115,5), sticky="nw")
+            self.bday = customtkinter.CTkLabel(self.viewframe1, text="Birthday: ")
+            self.bday.grid(row=0, column=0, padx=(60,680), pady=(150,5), sticky="nw")
             self.jd = customtkinter.CTkLabel(self.viewframe1, text="Job Description: ")
             self.jd.grid(row=0, column=0, padx=(60,680), pady=(190,5), sticky="nw")
             self.dh = customtkinter.CTkLabel(self.viewframe1, text="Date Hired: ")
@@ -150,14 +152,20 @@ class CIMOS_EmpPage(customtkinter.CTk):
             self.lnentry.grid(row=0, column=0, padx=(140,20), pady=(30,265), sticky="nsew")
             self.fnentry = customtkinter.CTkEntry(self.viewframe1, placeholder_text="Enter first name...")
             self.fnentry.grid(row=0, column=0, padx=(140,20), pady=(70,225), sticky="nsew")
+            self.addentry = customtkinter.CTkEntry(self.viewframe1, placeholder_text="Enter Address...")
+            self.addentry.grid(row=0, column=0, padx=(140,20), pady=(110,185), sticky="nsew")
         
-            self.ep_frame = customtkinter.CTkFrame(self.viewframe1)
-            self.ep_frame.grid(row=0, column=0, padx=(170, 0), pady=(110,140), sticky="nsw")
-            self.radio_var = tkinter.IntVar(value=0)
-            self.radio_button_1 = customtkinter.CTkRadioButton(self.ep_frame, variable=self.radio_var, value=0, text="Full Time", border_color="#e86161")
-            self.radio_button_1.grid(row=1, column=2, padx=(20,20), pady=(10,0), sticky="nw")
-            self.radio_button_2 = customtkinter.CTkRadioButton(self.ep_frame, variable=self.radio_var, value=1, text="Part Time", border_color="#e86161")
-            self.radio_button_2.grid(row=2, column=2, padx=(20,20), pady=(10,10), sticky="nw")
+            #self.ep_frame = customtkinter.CTkFrame(self.viewframe1)
+            #self.ep_frame.grid(row=0, column=0, padx=(170, 0), pady=(110,140), sticky="nsw")
+            #self.radio_var = tkinter.IntVar(value=0)
+            #self.radio_button_1 = customtkinter.CTkRadioButton(self.ep_frame, variable=self.radio_var, value=0, text="Full Time", border_color="#e86161")
+            #self.radio_button_1.grid(row=1, column=2, padx=(20,20), pady=(10,0), sticky="nw")
+            #self.radio_button_2 = customtkinter.CTkRadioButton(self.ep_frame, variable=self.radio_var, value=1, text="Part Time", border_color="#e86161")
+            #self.radio_button_2.grid(row=2, column=2, padx=(20,20), pady=(10,10), sticky="nw")
+            
+            self.cal = DateEntry(self.viewframe1, width=12, background='#222222',foreground='white', locale='en_US', date_pattern='yyyy/MM/dd')
+            self.cal.grid(row=0, column=0, padx=(180,20), pady=(190,190), sticky="nsw")
+            self.cal.bind("<<DateEntrySelected>>")
         
 
             self.jdchoose = customtkinter.CTkOptionMenu(self.viewframe1, dynamic_resizing=False, values=["Cashier", "Delivery", "Dishwasher", "Cleaner", "Cook"], button_color="white", button_hover_color="#222222")
@@ -165,7 +173,7 @@ class CIMOS_EmpPage(customtkinter.CTk):
             self.jdchoose.set("-Choose-")
 
             self.cal = DateEntry(self.viewframe1, width=12, background='#222222',foreground='white', locale='en_US', date_pattern='yyyy/MM/dd')
-            self.cal.grid(row=0, column=0, padx=(180,20), pady=(290,90), sticky="w")
+            self.cal.grid(row=0, column=0, padx=(180,20), pady=(290,90), sticky="nsw")
             self.cal.bind("<<DateEntrySelected>>")
 
             def getEmployeeInfo():
