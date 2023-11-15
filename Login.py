@@ -4,7 +4,6 @@ import customtkinter
 from PIL import Image
 import os
 import mysql.connector
-import bcrypt
 
 mydb = mysql.connector.connect(
     host="localhost",
@@ -121,7 +120,8 @@ class CIMOS_Login(customtkinter.CTk):
                 print(result)
                 if result:
                     if (password == result[0] and result[1] == "Admin"):
-                        messagebox.showinfo('Success', 'Admin Logged in successfully.')
+                        self.destroy()
+                        os.system('python adminpage.py')
                     elif (password == result[0] and result[1] == "User"):
                         messagebox.showinfo('Success', 'User Logged in successfully.')
                     else:

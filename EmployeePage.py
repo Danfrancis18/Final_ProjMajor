@@ -45,7 +45,7 @@ class CIMOS_EmpPage(customtkinter.CTk):
         
         def home():
             self.destroy()
-            import mainapp
+            os.system('python adminpage.py')
         
         
         
@@ -163,35 +163,58 @@ class CIMOS_EmpPage(customtkinter.CTk):
             #self.radio_button_2 = customtkinter.CTkRadioButton(self.ep_frame, variable=self.radio_var, value=1, text="Part Time", border_color="#e86161")
             #self.radio_button_2.grid(row=2, column=2, padx=(20,20), pady=(10,10), sticky="nw")
             
-            self.cal = DateEntry(self.viewframe1, width=12, background='#222222',foreground='white', locale='en_US', date_pattern='yyyy/MM/dd')
-            self.cal.grid(row=0, column=0, padx=(180,20), pady=(190,190), sticky="nsw")
-            self.cal.bind("<<DateEntrySelected>>")
+            self.bdaycal = DateEntry(self.viewframe1, width=12, background='#222222',foreground='white', locale='en_US', date_pattern='yyyy/MM/dd')
+            self.bdaycal.grid(row=0, column=0, padx=(180,20), pady=(190,190), sticky="nsw")
+            self.bdaycal.bind("<<DateEntrySelected>>")
         
 
             self.jdchoose = customtkinter.CTkOptionMenu(self.viewframe1, dynamic_resizing=False, values=["Cashier", "Delivery", "Dishwasher", "Cleaner", "Cook"], button_color="white", button_hover_color="#222222")
             self.jdchoose.grid(row=0, column=0, padx=(170,20), pady=(190, 110), sticky="nsew")
             self.jdchoose.set("-Choose-")
 
-            self.cal = DateEntry(self.viewframe1, width=12, background='#222222',foreground='white', locale='en_US', date_pattern='yyyy/MM/dd')
-            self.cal.grid(row=0, column=0, padx=(180,20), pady=(290,90), sticky="nsw")
-            self.cal.bind("<<DateEntrySelected>>")
+            self.hiredcal = DateEntry(self.viewframe1, width=12, background='#222222',foreground='white', locale='en_US', date_pattern='yyyy/MM/dd')
+            self.hiredcal.grid(row=0, column=0, padx=(180,20), pady=(290,90), sticky="nsw")
+            self.hiredcal.bind("<<DateEntrySelected>>")
 
-            def getEmployeeInfo():
-                Employee.EmpFName = self.lnentry.get()
-                Employee.EmpLName = self.fnentry.get()
-                if self.radio_var == 0:
-                    Employee.TypeOfEmplymnt = "Full-Time"
+            mycursor.execute("SELECT EmpID FROM employeetbl ORDER BY EmpID DESC LIMIT 1")
+            numEmployee = mycursor.fetchone()
+            empcount = numEmployee[0]
+            self.nextEmpID = numEmployee[0] + 1
+
+            
+            def submit():
+            
+                
+                dumpEmpID = self.nextEmpID
+                dumpEmpLName = self.lnentry.get()
+                dumpEmpFName = self.fnentry.get()
+                dumpBirthday = self.bdaycal.get()
+                dumpAddress = self.addentry.get()
+                dumpDateofEmplymnt = self.hiredcal.get()
+                dumpJobDescription = self.jdchoose.get()
+                if self.jdchoose.get() == "Cashier":
+                    dumpJobID = 4
+                elif self.jdchoose.get() == "Delivery":
+                    dumpJobID = 6
+                elif self.jdchoose.get() == "Dishwasher":
+                    dumpJobID = 8
+                elif self.jdchoose.get() == "Cleaner":
+                    dumpJobID = 10
+                elif self.jdchoose.get() == "Cook":
+                    dumpJobID = 12
+
+                if dumpEmpLName == "" or dumpEmpFName == "" or dumpBirthday == "" or dumpAddress == "" or dumpDateofEmplymnt == "" or dumpJobID == "-Choose-":
+                    tkinter.messagebox.showerror("Error", "Please fill up all fields")
+                    return
                 else:
-                    Employee.TypeOfEmplymnt = "Part-Time"
-                Employee.JobDescription = self.jdchoose.get()
-                Employee.DateofEmplymnt = self.cal.get()
+                    new_employee = Employee(dumpEmpID, dumpEmpLName, dumpEmpFName, dumpBirthday, dumpAddress, dumpDateofEmplymnt, dumpJobID)
 
-                #if Employee.JobDescription == "Manager":
+                new_employee.create()
 
             
 
 
-            self.add2button=customtkinter.CTkButton(self.viewframe1, text="Add Employee", bg_color="transparent", fg_color="#222222", text_color="white", font=customtkinter.CTkFont(size=14, weight="bold"), width=290, command=getEmployeeInfo)
+            self.add2button=customtkinter.CTkButton(self.viewframe1, text="Add Employee", bg_color="transparent", fg_color="#222222", text_color="white", font=customtkinter.CTkFont(size=14, weight="bold"), width=290, command=submit)
             self.add2button.grid(row=0, column=0, padx=(240,200), pady=(280,20), sticky="ew")
         
 
