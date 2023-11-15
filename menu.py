@@ -49,6 +49,23 @@ def add_to_treeview():
     for me in menu:
         tree.insert('', END, values=me)
 
+def upd_to_treeview():
+    menu = database.fetch_ID()  # Corrected: Added parentheses to call the function
+    tree.delete(*tree.get_children())
+    for me in menu:
+        tree.insert('', END, values=me)
+        
+def get_product_id_from_selected_item(selected_item):
+    # Assuming that the product ID is stored in the first column (index 0) of the selected item
+    item_values = tree.item(selected_item, 'values')
+    
+    if item_values:
+        product_id = item_values[0]  # Adjust the index based on the actual column containing the product ID
+        return product_id
+    else:
+        return None  # Handle the case where values are not found
+
+
 def clear(*clicked):
     if clicked:
         tree.selection_remove(tree.focus())
@@ -61,8 +78,8 @@ def delete():
     if not selected_item:
         messagebox.showerror('Error', 'Choose a Dish to Delete.')
     else:
-        id = database.fetch_ID
-        database.delete_menu(id)
+        product_id = get_product_id_from_selected_item(selected_item)
+        database.delete_menu(product_id)
         add_to_treeview()
         clear()
         messagebox.showinfo('Success', 'Data has been deleted.')
@@ -74,8 +91,8 @@ def update():
     else:
         name = self.name_entry.get()
         pric = self.price_entry.get()
-        id = database.fetch_ID
-        database.update_menu(ProductID=id, newname=name, newprice=pric)
+        product_id = get_product_id_from_selected_item(selected_item)
+        database.update_menu(ProductID=product_id, newname=name, newprice=pric)
         add_to_treeview()
         clear()
         messagebox.showinfo('Success', 'Data has been updated.')
@@ -95,8 +112,68 @@ def insert():
             messagebox. showerror('Error', 'Price should be an Integer!')
         
         #-------Current Page---------------------------------------------------------------------------------------------------------------------------------
+def home():
+    self.destroy()
+    os.system('python adminpage.py')
+
+def toggle_menu():
+    def collapse_menu():
+        self.my_frame.destroy()
+        self.menuimg = customtkinter.CTkImage(light_image=Image.open(os.path.join("menu1.png")), dark_image=Image.open(os.path.join("menu.png")),size=(40,40))
+        self.Image_label = customtkinter.CTkButton(self, text="", image=self.menuimg, fg_color="transparent", width=40, height=40, command=toggle_menu)
+        self.Image_label.grid(row=0, column=0, padx=(0, 920), pady=(0,500))
+                
+    self.my_frame = customtkinter.CTkFrame(self, width=220, height=40, corner_radius=10, fg_color="white", bg_color="transparent")
+    self.my_frame.grid(row=0, column=0, padx=(0, 820), pady=(70,330), sticky="ns")
+    self.menuimg = customtkinter.CTkImage(light_image=Image.open(os.path.join("menu1.png")), dark_image=Image.open(os.path.join("menu.png")),size=(40,40))
+    self.Image_label = customtkinter.CTkButton(self, text="", image=self.menuimg, fg_color="transparent", width=40, height=40, command=collapse_menu)
+    self.Image_label.grid(row=0, column=0, padx=(0, 920), pady=(0,500))
+        #----Menu----------------------------------------------------------------------------------------------------------------------------------------------------
+            #----Employee Tab----------------------------------------------------------------------------------------------------------------------------------------------------------
+    def togmenu1():
+        self.empbutton = customtkinter.CTkButton(self.my_frame, text="Employee", fg_color="#FFC3B4", bg_color="transparent", font=customtkinter.CTkFont(size=14, weight="bold"), corner_radius=0, command=togmenu1)
+        self.empbutton.grid(row=0, column=0, padx=(0,0), pady=(10,290))
+        self.prodbutton = customtkinter.CTkButton(self.my_frame, text="Menu", fg_color="transparent", bg_color="transparent", font=customtkinter.CTkFont(size=14, weight="bold"), command=togmenu2)
+        self.prodbutton.grid(row=0, column=0, padx=(2,2), pady=(10,220))
+        self.salesbutton = customtkinter.CTkButton(self.my_frame, text="Sales", fg_color="transparent", bg_color="transparent", font=customtkinter.CTkFont(size=14, weight="bold"), command=togmenu3)
+        self.salesbutton.grid(row=0, column=0, padx=(2,2), pady=(10,150))
+        self.homebutton = customtkinter.CTkButton(self.my_frame, text="Home", fg_color="#9f1111", bg_color="transparent", text_color="white", font=customtkinter.CTkFont(size=14, weight="bold"), command=home)
+        self.homebutton.grid(row=0, column=0, padx=(2,2), pady=(0,10))
+            
+    self.empbutton = customtkinter.CTkButton(self.my_frame, text="Employee", fg_color="#FFC3B4", bg_color="transparent", font=customtkinter.CTkFont(size=14, weight="bold"), corner_radius=0, command=togmenu1)
+    self.empbutton.grid(row=0, column=0, padx=(0,0), pady=(10,290))
+            #-----Menu Tab--------------------------------------------------------------------------------------------------------------------------------------------------
+    def togmenu2():
+        self.empbutton = customtkinter.CTkButton(self.my_frame, text="Employee", fg_color="transparent", bg_color="transparent", font=customtkinter.CTkFont(size=14, weight="bold"), command=togmenu1)
+        self.empbutton.grid(row=0, column=0, padx=(0,0), pady=(10,290))
+        self.prodbutton = customtkinter.CTkButton(self.my_frame, text="Menu", fg_color="#FFC3B4", bg_color="transparent", font=customtkinter.CTkFont(size=14, weight="bold"), corner_radius=0, command=togmenu2)
+        self.prodbutton.grid(row=0, column=0, padx=(2,2), pady=(10,220))
+        self.salesbutton = customtkinter.CTkButton(self.my_frame, text="Sales", fg_color="transparent", bg_color="transparent", font=customtkinter.CTkFont(size=14, weight="bold"), command=togmenu3)
+        self.salesbutton.grid(row=0, column=0, padx=(2,2), pady=(10,150))
+        self.homebutton = customtkinter.CTkButton(self.my_frame, text="Home", fg_color="#9f1111", bg_color="transparent", text_color="white", font=customtkinter.CTkFont(size=14, weight="bold"), command=home)
+        self.homebutton.grid(row=0, column=0, padx=(2,2), pady=(0,10))
+
+    self.prodbutton = customtkinter.CTkButton(self.my_frame, text="Menu", fg_color="transparent", bg_color="transparent", font=customtkinter.CTkFont(size=14, weight="bold"), command=togmenu2)
+    self.prodbutton.grid(row=0, column=0, padx=(2,2), pady=(10,220))
+            #------Sales Tab--------------------------------------------------------------------------------------------------------------------------------------------------
+    def togmenu3():
+        self.empbutton = customtkinter.CTkButton(self.my_frame, text="Employee", fg_color="transparent", bg_color="transparent", font=customtkinter.CTkFont(size=14, weight="bold"), command=togmenu1)
+        self.empbutton.grid(row=0, column=0, padx=(0,0), pady=(10,290))
+        self.prodbutton = customtkinter.CTkButton(self.my_frame, text="Menu", fg_color="transparent", bg_color="transparent", font=customtkinter.CTkFont(size=14, weight="bold"), command=togmenu2)
+        self.prodbutton.grid(row=0, column=0, padx=(2,2), pady=(10,220))
+        self.salesbutton = customtkinter.CTkButton(self.my_frame, text="Sales", fg_color="#FFC3B4", bg_color="transparent", font=customtkinter.CTkFont(size=14, weight="bold"), corner_radius=0, command=togmenu3)
+        self.salesbutton.grid(row=0, column=0, padx=(2,2), pady=(10,150))
+        self.homebutton = customtkinter.CTkButton(self.my_frame, text="Home", fg_color="#9f1111", bg_color="transparent", text_color="white", font=customtkinter.CTkFont(size=14, weight="bold"), command=home)
+        self.homebutton.grid(row=0, column=0, padx=(2,2), pady=(0,10))
+                
+    self.salesbutton = customtkinter.CTkButton(self.my_frame, text="Sales", fg_color="transparent", bg_color="transparent", font=customtkinter.CTkFont(size=14, weight="bold"), command=togmenu3)
+    self.salesbutton.grid(row=0, column=0, padx=(2,2), pady=(10,150))
+            
+    self.homebutton = customtkinter.CTkButton(self.my_frame, text="Home", fg_color="#9f1111", bg_color="transparent", text_color="white", font=customtkinter.CTkFont(size=14, weight="bold"), command=home)
+    self.homebutton.grid(row=0, column=0, padx=(2,2), pady=(0,10))
+            
 self.menuimg = customtkinter.CTkImage(light_image=Image.open(os.path.join("menu1.png")), dark_image=Image.open(os.path.join("menu.png")),size=(40,40))
-self.Image_label = customtkinter.CTkButton(self, text="", image=self.menuimg, fg_color="transparent", width=40, height=40)
+self.Image_label = customtkinter.CTkButton(self, text="", image=self.menuimg, fg_color="transparent", width=40, height=40, command=toggle_menu)
 self.Image_label.grid(row=0, column=0, padx=(0, 920), pady=(0,500))
 self.logo_label = customtkinter.CTkLabel(self, text="Admin Controls - Menu", font=customtkinter.CTkFont("Harrington", size=26, weight="bold"), fg_color="transparent", text_color="White")
 self.logo_label.grid(row=0, column=0, padx=(0, 530), pady=(0,500))
@@ -133,11 +210,10 @@ self.delclick.place(x=120, y=395)
 
 style = ttk.Style(self)
 style.theme_use('clam')
-style.configure('Treeview', font=font3, foreground='#fff', background='#0a0b0c', fieldbackground='#222222')
+style.configure('Treeview', font=font3, foreground='#fff', background='#0a0b0c', fieldbackground='#222222', rowheight=40)
 style.map('Treeview', background=[('selected', '#9F0000')])
 
-tree = ttk.Treeview(self, height=26)
-
+tree = ttk.Treeview(self, height=13)
 
 tree['columns'] = ('ProductID', 'ProductName', 'Price')
 

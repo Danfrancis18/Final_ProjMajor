@@ -40,24 +40,36 @@ def insert_menu(ProductName,Price):
     
 def delete_menu(ProductID):
     mydb = mysql.connector.connect(
-    host="localhost",
-    user="root",
-    password="",
-    database="canteenmanagement"
+        host="localhost",
+        user="root",
+        password="",
+        database="canteenmanagement"
     )
     mycursor = mydb.cursor()
-    mycursor.execute('DELETE FROM menutbl WHERE ProductID = ', (ProductID,))
+    values = (ProductID,)
+
+    sql = 'DELETE FROM menutbl WHERE ProductID = %s'
+    mycursor.execute(sql, values)
+
     mydb.commit()
     mydb.close()
     
 def update_menu(newname, newprice, ProductID):
     mydb = mysql.connector.connect(
-    host="localhost",
-    user="root",
-    password="",
-    database="canteenmanagement"
+        host="localhost",
+        user="root",
+        password="",
+        database="canteenmanagement"
     )
     mycursor = mydb.cursor()
-    mycursor.execute('UPDATE menutbl SET ProductName = %s, Price = %s WHERE ProductID = ', (newname, newprice, ProductID))
+
+    # Use placeholders for the values in the WHERE clause
+    sql = 'UPDATE menutbl SET ProductName = %s, Price = %s WHERE ProductID = %s'
+    
+    # Pass a tuple with the values to be substituted into the placeholders
+    values = (newname, newprice, ProductID)
+
+    mycursor.execute(sql, values)
+    
     mydb.commit()
     mydb.close()
