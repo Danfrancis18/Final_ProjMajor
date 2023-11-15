@@ -115,16 +115,20 @@ class CIMOS_Login(customtkinter.CTk):
         def login():
             username = user.get()
             password = secret.get()
-            if username != '' and password != '':
+            if username != 'Username' and password != 'Password':
                 mycursor.execute('SELECT password FROM logintbl WHERE username=%s', [username])
                 result = mycursor.fetchone()
+                print(username)
+                print(password)
                 if result:
-                    if bcrypt.checkpw(password.encode('utf-8'), result[0]):
+                    if (password == result[0]):
                         messagebox.showinfo('Success', 'Logged in successfully.')
                     else:
                         messagebox.showerror('Error', 'Invalid password.')
                 else:
                     messagebox.showerror('Error', 'Invalid Username.')
+            #if (username == "Username" and password == "Password"):
+                #messagebox.showerror('Error', 'Enter all data.')
             else:
                 messagebox.showerror('Error', 'Enter all data.')
 
