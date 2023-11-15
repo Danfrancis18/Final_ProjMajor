@@ -116,11 +116,14 @@ class CIMOS_Login(customtkinter.CTk):
             username = user.get()
             password = secret.get()
             if username != 'Username' and password != 'Password':
-                mycursor.execute('SELECT password FROM logintbl WHERE username=%s', [username])
+                mycursor.execute('SELECT password,LoginCredentials FROM logintbl WHERE username=%s', [username])
                 result = mycursor.fetchone()
+                print(result)
                 if result:
-                    if (password == result[0]):
-                        messagebox.showinfo('Success', 'Logged in successfully.')
+                    if (password == result[0] and result[1] == "Admin"):
+                        messagebox.showinfo('Success', 'Admin Logged in successfully.')
+                    elif (password == result[0] and result[1] == "User"):
+                        messagebox.showinfo('Success', 'User Logged in successfully.')
                     else:
                         messagebox.showerror('Error', 'Invalid password.')
                 else:

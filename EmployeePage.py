@@ -45,7 +45,7 @@ class CIMOS_EmpPage(customtkinter.CTk):
         
         def home():
             self.destroy()
-            import mainapp
+            os.system('python mainapp.py')
         
         
         
