@@ -31,7 +31,7 @@ CREATE TABLE `employeetbl` (
   `EmpID` int(11) NOT NULL,
   `EmpLName` varchar(30) DEFAULT NULL,
   `EmpFName` varchar(30) DEFAULT NULL,
-  `Age` int(11) DEFAULT NULL,
+  `Birthday` date DEFAULT NULL,
   `Address` varchar(100) DEFAULT NULL,
   `DateOfEmplymnt` date DEFAULT NULL,
   `JobID` int(11) DEFAULT NULL
