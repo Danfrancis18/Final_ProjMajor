@@ -104,7 +104,7 @@ def insert():
         messagebox.showerror('Error', 'Enter all requirements.')
     else:
         try:
-            database.insert_menu(ProductName=name, Price=pric)
+            database.insert_menu(ProductName=name, Price=int(pric))
             add_to_treeview()
             clear()
             messagebox.showinfo('Success', 'Dish added to the Menu!')
