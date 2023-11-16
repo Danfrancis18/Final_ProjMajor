@@ -227,6 +227,58 @@ class CIMOS_EmpPage(customtkinter.CTk):
         self.addbutton = customtkinter.CTkButton(self.tabview, text="Add", bg_color="transparent", font=customtkinter.CTkFont(size=14, weight="bold"), command = addfunc)
         self.addbutton.grid(row=0, column=0, padx=(780,0), pady=(0,320))
         
+        #-----Update-------------------
+        def updtfunc():
+            def collapse_menu2():
+                self.viewframe2.destroy()
+                self.updtbutton = customtkinter.CTkButton(self.tabview, text="Update", bg_color="transparent", font=customtkinter.CTkFont(size=14, weight="bold"), command=updtfunc)
+                self.updtbutton.grid(row=0, column=0, padx=(460,0), pady=(0,320))
+            
+            self.viewframe2 = customtkinter.CTkFrame(self.tabview, width=900, height=320, fg_color="#9F0000", corner_radius=6)
+            self.viewframe2.grid(row=0, column=0, padx=(30,10), pady=(65,0), sticky="nsew")
+            self.updtbutton2 = customtkinter.CTkButton(self.tabview, text="Close", bg_color="transparent", font=customtkinter.CTkFont(size=14, weight="bold"), command = collapse_menu2)
+            self.updtbutton2.grid(row=0, column=0, padx=(460,0), pady=(0,320))
+            self.ln = customtkinter.CTkLabel(self.viewframe2, text="Last Name: ")
+            self.ln.grid(row=0, column=0, padx=(60,620), pady=(30,5), sticky="nw")#
+            self.fn = customtkinter.CTkLabel(self.viewframe2, text="First Name: ")
+            self.fn.grid(row=0, column=0, padx=(60,620), pady=(70,5), sticky="nw")
+            self.ep = customtkinter.CTkLabel(self.viewframe2, text="Address: ")
+            self.ep.grid(row=0, column=0, padx=(60,675), pady=(115,5), sticky="nw")
+            self.bday = customtkinter.CTkLabel(self.viewframe2, text="Birthday: ")
+            self.bday.grid(row=0, column=0, padx=(60,680), pady=(150,5), sticky="nw")
+            self.jd = customtkinter.CTkLabel(self.viewframe2, text="Job Description: ")
+            self.jd.grid(row=0, column=0, padx=(60,680), pady=(190,5), sticky="nw")
+            self.dh = customtkinter.CTkLabel(self.viewframe2, text="Date Hired: ")
+            self.dh.grid(row=0, column=0, padx=(60,680), pady=(230,5), sticky="nw")
+        
+            self.lnentry = customtkinter.CTkEntry(self.viewframe2, placeholder_text="Enter last name...")
+            self.lnentry.grid(row=0, column=0, padx=(140,20), pady=(30,265), sticky="nsew")
+            self.fnentry = customtkinter.CTkEntry(self.viewframe2, placeholder_text="Enter first name...")
+            self.fnentry.grid(row=0, column=0, padx=(140,20), pady=(70,225), sticky="nsew")
+            self.addentry = customtkinter.CTkEntry(self.viewframe2, placeholder_text="Enter Address...")
+            self.addentry.grid(row=0, column=0, padx=(140,20), pady=(110,185), sticky="nsew")
+            
+            self.bdaycal = DateEntry(self.viewframe2, width=12, background='#222222',foreground='white', locale='en_US', date_pattern='yyyy/MM/dd')
+            self.bdaycal.grid(row=0, column=0, padx=(180,20), pady=(190,190), sticky="nsw")
+            self.bdaycal.bind("<<DateEntrySelected>>")
+
+            self.jdchoose = customtkinter.CTkOptionMenu(self.viewframe2, dynamic_resizing=False, values=["Cashier", "Delivery", "Dishwasher", "Cleaner", "Cook"], button_color="white", button_hover_color="#222222")
+            self.jdchoose.grid(row=0, column=0, padx=(170,20), pady=(190, 110), sticky="nsew")
+            self.jdchoose.set("-Choose-")
+
+            self.hiredcal = DateEntry(self.viewframe2, width=12, background='#222222',foreground='white', locale='en_US', date_pattern='yyyy/MM/dd')
+            self.hiredcal.grid(row=0, column=0, padx=(180,20), pady=(290,90), sticky="nsw")
+            self.hiredcal.bind("<<DateEntrySelected>>")
+
+            self.updt2button=customtkinter.CTkButton(self.viewframe2, text="Update Employee", bg_color="transparent", fg_color="#222222", text_color="white", font=customtkinter.CTkFont(size=14, weight="bold"), width=290, command=None)
+            self.updt2button.grid(row=0, column=0, padx=(240,200), pady=(280,20), sticky="ew")
+        
+        self.updtbutton = customtkinter.CTkButton(self.tabview, text="Update", bg_color="transparent", font=customtkinter.CTkFont(size=14, weight="bold"), command=updtfunc)
+        self.updtbutton.grid(row=0, column=0, padx=(460,0), pady=(0,320))
+        
+        self.delbutton = customtkinter.CTkButton(self.tabview, text="Delete", bg_color="transparent", font=customtkinter.CTkFont(size=14, weight="bold"), command=None)
+        self.delbutton.grid(row=0, column=0, padx=(140,0), pady=(0,320))
+        
         def update_delete(): #di ko pa alam
             self.updtbutton = customtkinter.CTkButton(self.seg_button_1, text="Update", bg_color="transparent", font=customtkinter.CTkFont(size=14, weight="bold"), width=290)
             self.updtbutton.grid(row=0, column=0, padx=(0,0), pady=(5,5))
