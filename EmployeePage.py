@@ -1,4 +1,5 @@
 from tkinter import Text, ttk
+import tkinter as tk
 import tkinter.messagebox
 import customtkinter
 from PIL import Image
@@ -124,6 +125,36 @@ class CIMOS_EmpPage(customtkinter.CTk):
             #----dito ishoshow yung data, current employee, employee info-------------
         self.viewframe = customtkinter.CTkFrame(self.tabview, width=900, height=320, fg_color="white", corner_radius=6)
         self.viewframe.grid(row=0, column=0, padx=(30,10), pady=(65,0), sticky="nsew")
+        
+        style = ttk.Style(self.viewframe)
+        style.theme_use('clam')
+        style.configure('Treeview', font=('Arial', 14, 'bold'), foreground='#fff', background='#777777', fieldbackground='#222222', rowheight=38)
+        style.map('Treeview', background=[('selected', '#9F0000')])
+
+        tree = ttk.Treeview(self.viewframe, height=10)
+
+        tree['columns'] = ('EmpID', 'Last Name', 'First Name', 'Birthday', 'Address', 'Position', 'Type of Employment', 'Date of Employment')
+
+        tree.column('#0', width=0, stretch=tk.NO)
+        tree.column('EmpID', anchor=tk.CENTER, width=140)
+        tree.column('Last Name', anchor=tk.CENTER, width=140)
+        tree.column('First Name', anchor=tk.CENTER, width=140)
+        tree.column('Birthday', anchor=tk.CENTER, width=140)
+        tree.column('Address', anchor=tk.CENTER, width=140)
+        tree.column('Position', anchor=tk.CENTER, width=140)
+        tree.column('Type of Employment', anchor=tk.CENTER, width=140)
+        tree.column('Date of Employment', anchor=tk.CENTER, width=140)
+
+        tree.heading('EmpID', text='EmpID')
+        tree.heading('Last Name', text='Surname')
+        tree.heading('First Name', text='First Name')
+        tree.heading('Birthday', text='Birthday')
+        tree.heading('Address', text='Address')
+        tree.heading('Position', text='Job Description')
+        tree.heading('Type of Employment', text='Type of Employment')
+        tree.heading('Date of Employment', text='Date Hired')
+
+        tree.place(x=0, y=0)
         
         def addfunc():
             def collapse_menu1():
