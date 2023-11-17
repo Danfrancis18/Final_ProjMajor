@@ -19,9 +19,22 @@ class CIMOS_Admin(customtkinter.CTk):
     def __init__(self):
         super().__init__()
         
-        def signup_command():
+        def goto_employee():
             self.destroy()
             import EmployeePage
+
+        def goto_menu():
+            self.destroy()
+            import menu
+
+        def goto_sales():
+            print('placeholder command')
+            return
+
+        def logout():
+            self.destroy()
+            os.system('python Login.py')
+
 
         # configure window class CIMOS_Admin
         self.title("CIMOS Admin")
@@ -47,7 +60,7 @@ class CIMOS_Admin(customtkinter.CTk):
         self.linedesprof2.grid(row=0,column=0, padx=(230,0), pady=(200,0))
         self.logo_label = customtkinter.CTkLabel(self.my_frame, text="Admin Profile", font=customtkinter.CTkFont(size=20, weight="bold"))
         self.logo_label.grid(row=0, column=0, padx=(0,0), pady=(160, 0))
-        self.outbutton = customtkinter.CTkButton(self.my_frame, text="Log out", bg_color="transparent", font=customtkinter.CTkFont(size=14, weight="bold"))
+        self.outbutton = customtkinter.CTkButton(self.my_frame, text="Log out", bg_color="transparent", font=customtkinter.CTkFont(size=14, weight="bold"), command=logout)
         self.outbutton.grid(row=1, column=0, padx=(10,10), pady=(300,0), sticky="ew")
         
         
@@ -67,11 +80,11 @@ class CIMOS_Admin(customtkinter.CTk):
         self.choose_frame.grid(row=0, column=0, padx=(240,20) , pady=(170, 120), columnspan=3, sticky="nsew")
         self.buttonchoose = customtkinter.CTkFrame(self.choose_frame, width=700, height=35, fg_color="#666666")
         self.buttonchoose.grid(row=0, column=0, columnspan=3, padx=(20,20) , pady=(240, 40), sticky="nsew")
-        self.empbutton = customtkinter.CTkButton(self.choose_frame, text="Employee", bg_color="#666666", font=customtkinter.CTkFont(size=14, weight="bold"), command=signup_command)
+        self.empbutton = customtkinter.CTkButton(self.choose_frame, text="Employee", bg_color="#666666", font=customtkinter.CTkFont(size=14, weight="bold"), command=goto_employee)
         self.empbutton.grid(row=0, column=0, padx=(55,500), pady=(240,40))
-        self.prodbutton = customtkinter.CTkButton(self.choose_frame, text="Menu", bg_color="#666666", font=customtkinter.CTkFont(size=14, weight="bold"))
+        self.prodbutton = customtkinter.CTkButton(self.choose_frame, text="Menu", bg_color="#666666", font=customtkinter.CTkFont(size=14, weight="bold"), command=goto_menu)
         self.prodbutton.grid(row=0, column=0, padx=(30,0), pady=(240,40))
-        self.salesbutton = customtkinter.CTkButton(self.choose_frame, text="Sales", bg_color="#666666", font=customtkinter.CTkFont(size=14, weight="bold"))
+        self.salesbutton = customtkinter.CTkButton(self.choose_frame, text="Sales", bg_color="#666666", font=customtkinter.CTkFont(size=14, weight="bold"), command=goto_sales)
         self.salesbutton.grid(row=0, column=0, padx=(510,0), pady=(240,40))
         #------------------------------------------------------------------------------------------------------
         self.linedes = tk.Frame(self.choose_frame, width=2, height=220, bg='#555555')
