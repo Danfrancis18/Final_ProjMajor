@@ -211,9 +211,6 @@ class CIMOS_EmpPage(customtkinter.CTk):
 
                 new_employee.create()
 
-            
-
-
             self.add2button=customtkinter.CTkButton(self.viewframe1, text="Add Employee", bg_color="transparent", fg_color="#222222", text_color="white", font=customtkinter.CTkFont(size=14, weight="bold"), width=290, command=submit)
             self.add2button.grid(row=0, column=0, padx=(240,200), pady=(280,20), sticky="ew")
         
@@ -239,35 +236,45 @@ class CIMOS_EmpPage(customtkinter.CTk):
             self.updtbutton2 = customtkinter.CTkButton(self.tabview, text="Close", bg_color="transparent", font=customtkinter.CTkFont(size=14, weight="bold"), command = collapse_menu2)
             self.updtbutton2.grid(row=0, column=0, padx=(460,0), pady=(0,320))
             self.ln = customtkinter.CTkLabel(self.viewframe2, text="Last Name: ")
-            self.ln.grid(row=0, column=0, padx=(60,620), pady=(30,5), sticky="nw")#
+            self.ln.grid(row=0, column=0, padx=(30,650), pady=(30,5), sticky="nw")
             self.fn = customtkinter.CTkLabel(self.viewframe2, text="First Name: ")
-            self.fn.grid(row=0, column=0, padx=(60,620), pady=(70,5), sticky="nw")
+            self.fn.grid(row=0, column=0, padx=(30,650), pady=(70,5), sticky="nw")
             self.ep = customtkinter.CTkLabel(self.viewframe2, text="Address: ")
-            self.ep.grid(row=0, column=0, padx=(60,675), pady=(115,5), sticky="nw")
+            self.ep.grid(row=0, column=0, padx=(30,705), pady=(115,5), sticky="nw")
             self.bday = customtkinter.CTkLabel(self.viewframe2, text="Birthday: ")
-            self.bday.grid(row=0, column=0, padx=(60,680), pady=(150,5), sticky="nw")
+            self.bday.grid(row=0, column=0, padx=(30,105), pady=(115,5), sticky="ne")
             self.jd = customtkinter.CTkLabel(self.viewframe2, text="Job Description: ")
-            self.jd.grid(row=0, column=0, padx=(60,680), pady=(190,5), sticky="nw")
+            self.jd.grid(row=0, column=0, padx=(30,710), pady=(180,5), sticky="nw")
             self.dh = customtkinter.CTkLabel(self.viewframe2, text="Date Hired: ")
-            self.dh.grid(row=0, column=0, padx=(60,680), pady=(230,5), sticky="nw")
+            self.dh.grid(row=0, column=0, padx=(30,93), pady=(175,5), sticky="ne")
+            self.temp = customtkinter.CTkLabel(self.viewframe2, text="Type of Employment: ")
+            self.temp.grid(row=0, column=0, padx=(30,38), pady=(20,5), sticky="ne")
+            
+            self.ep_frame = customtkinter.CTkFrame(self.viewframe2)
+            self.ep_frame.grid(row=0, column=0, padx=(30, 40), pady=(40,5), sticky="ne")
+            self.radio_var = tkinter.IntVar(value=0)
+            self.radio_button_1 = customtkinter.CTkRadioButton(self.ep_frame, variable=self.radio_var, value=0, text="Part Time", border_color="#e86161")
+            self.radio_button_1.grid(row=1, column=2, padx=(20,20), pady=(10,0), sticky="nw")
+            self.radio_button_2 = customtkinter.CTkRadioButton(self.ep_frame, variable=self.radio_var, value=1, text="Full Time", border_color="#e86161")
+            self.radio_button_2.grid(row=2, column=2, padx=(20,20), pady=(10,10), sticky="nw")
         
-            self.lnentry = customtkinter.CTkEntry(self.viewframe2, placeholder_text="Enter last name...")
-            self.lnentry.grid(row=0, column=0, padx=(140,20), pady=(30,265), sticky="nsew")
-            self.fnentry = customtkinter.CTkEntry(self.viewframe2, placeholder_text="Enter first name...")
-            self.fnentry.grid(row=0, column=0, padx=(140,20), pady=(70,225), sticky="nsew")
-            self.addentry = customtkinter.CTkEntry(self.viewframe2, placeholder_text="Enter Address...")
-            self.addentry.grid(row=0, column=0, padx=(140,20), pady=(110,185), sticky="nsew")
+            self.lnentry = customtkinter.CTkEntry(self.viewframe2, placeholder_text="Enter new last name...")
+            self.lnentry.grid(row=0, column=0, padx=(110,350), pady=(30,265), sticky="nsew")
+            self.fnentry = customtkinter.CTkEntry(self.viewframe2, placeholder_text="Enter new first name...")
+            self.fnentry.grid(row=0, column=0, padx=(110,350), pady=(70,225), sticky="nsew")
+            self.addentry = customtkinter.CTkEntry(self.viewframe2, placeholder_text="Enter new Address...")
+            self.addentry.grid(row=0, column=0, padx=(110,350), pady=(110,185), sticky="nsew")
             
             self.bdaycal = DateEntry(self.viewframe2, width=12, background='#222222',foreground='white', locale='en_US', date_pattern='yyyy/MM/dd')
-            self.bdaycal.grid(row=0, column=0, padx=(180,20), pady=(190,190), sticky="nsw")
+            self.bdaycal.grid(row=0, column=0, padx=(0,100), pady=(180,190), sticky="ne")
             self.bdaycal.bind("<<DateEntrySelected>>")
 
             self.jdchoose = customtkinter.CTkOptionMenu(self.viewframe2, dynamic_resizing=False, values=["Cashier", "Delivery", "Dishwasher", "Cleaner", "Cook"], button_color="white", button_hover_color="#222222")
-            self.jdchoose.grid(row=0, column=0, padx=(170,20), pady=(190, 110), sticky="nsew")
+            self.jdchoose.grid(row=0, column=0, padx=(140,350), pady=(180, 120), sticky="nsew")
             self.jdchoose.set("-Choose-")
 
             self.hiredcal = DateEntry(self.viewframe2, width=12, background='#222222',foreground='white', locale='en_US', date_pattern='yyyy/MM/dd')
-            self.hiredcal.grid(row=0, column=0, padx=(180,20), pady=(290,90), sticky="nsw")
+            self.hiredcal.grid(row=0, column=0, padx=(0,100), pady=(250,0), sticky="ne")
             self.hiredcal.bind("<<DateEntrySelected>>")
 
             self.updt2button=customtkinter.CTkButton(self.viewframe2, text="Update Employee", bg_color="transparent", fg_color="#222222", text_color="white", font=customtkinter.CTkFont(size=14, weight="bold"), width=290, command=None)

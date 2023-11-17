@@ -47,6 +47,9 @@ class CIMOS_Admin(customtkinter.CTk):
         self.linedesprof2.grid(row=0,column=0, padx=(230,0), pady=(200,0))
         self.logo_label = customtkinter.CTkLabel(self.my_frame, text="Admin Profile", font=customtkinter.CTkFont(size=20, weight="bold"))
         self.logo_label.grid(row=0, column=0, padx=(0,0), pady=(160, 0))
+        self.outbutton = customtkinter.CTkButton(self.my_frame, text="Log out", bg_color="transparent", font=customtkinter.CTkFont(size=14, weight="bold"))
+        self.outbutton.grid(row=1, column=0, padx=(10,10), pady=(300,0), sticky="ew")
+        
         
         #Interface Title
         self.labelframe=customtkinter.CTkFrame(master=self, width=220, height=10, corner_radius=9)
