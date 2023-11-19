@@ -1,5 +1,5 @@
 import tkinter as tk
-import tkinter.messagebox
+from tkinter import messagebox
 import customtkinter
 from PIL import Image
 import os
@@ -32,8 +32,12 @@ class CIMOS_Admin(customtkinter.CTk):
             return
 
         def logout():
-            self.destroy()
-            os.system('python Login.py')
+            response = messagebox.askyesno("Logout", "Are you sure you want to logout?")
+            if response == 1:
+                self.destroy()
+                os.system('python Login.py')
+            else:
+                return
 
 
         # configure window class CIMOS_Admin

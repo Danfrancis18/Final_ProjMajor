@@ -79,7 +79,7 @@ class CIMOS_Login(customtkinter.CTk):
         
         #-------------------------------------------------
         def on_enter(e):
-            secret.config(show="*")
+            secret.config(show="●")
             secret.delete(0,'end')
 
         def on_leave(e):
@@ -112,7 +112,7 @@ class CIMOS_Login(customtkinter.CTk):
         closeeye=tk.PhotoImage(file="hide1.png")
         eyeButton=tk.Button(self.tabview,image=closeeye,border=0,bg="white",command=hide)
         eyeButton.place(x=320,y=330)
-        
+
         def login():
             username = user.get()
             password = secret.get()
@@ -133,6 +133,7 @@ class CIMOS_Login(customtkinter.CTk):
             else:
                 messagebox.showerror('Error', 'Enter all data.')
 
+        
 
         loginbutton = customtkinter.CTkButton(self.tabview, text="Log in", bg_color="transparent", font=customtkinter.CTkFont(size=14, weight="bold"), command = login)
         loginbutton.grid(row=0, column=0, padx=(85,0), pady=(320,30))
