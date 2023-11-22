@@ -17,7 +17,7 @@ else:
 
 class CIMOS_Admin(customtkinter.CTk):
     def __init__(self):
-        super().__init__()
+        super().__init__() 
         
         def goto_employee():
             self.destroy()
@@ -71,8 +71,8 @@ class CIMOS_Admin(customtkinter.CTk):
         #Interface Title
         self.labelframe=customtkinter.CTkFrame(master=self, width=220, height=10, corner_radius=9)
         self.labelframe.grid(row=0, column=0, padx=(240,20), pady=(60,230), sticky="new")
-        self.logo_label = customtkinter.CTkLabel(self.labelframe, text="Canteen Inventory Management and Ordering System", font=customtkinter.CTkFont("NEXA", size=24, weight="bold"))
-        self.logo_label.grid(row=0, column=0, padx=70, pady=(10, 10))
+        self.logo_label = customtkinter.CTkLabel(self.labelframe, text="Canteen Management and Ordering System", font=customtkinter.CTkFont("NEXA", size=24, weight="bold"))
+        self.logo_label.grid(row=0, column=0, padx=115, pady=(10, 10))
         
         
         # choice

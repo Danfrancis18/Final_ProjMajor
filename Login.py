@@ -5,7 +5,6 @@ from PIL import Image
 import os
 import mysql.connector
 
-#magcode ka na Dan!!
 
 mydb = mysql.connector.connect(
     host="localhost",
