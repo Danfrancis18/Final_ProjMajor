@@ -124,7 +124,8 @@ class CIMOS_Login(customtkinter.CTk):
                         self.destroy()
                         os.system('python adminpage.py')
                     elif (password == result[0] and result[1] == "User"):
-                        messagebox.showinfo('Success', 'User Logged in successfully.')
+                        self.destroy()
+                        os.system('python orderpage.py')
                     else:
                         messagebox.showerror('Error', 'Invalid password.')
                 else:
