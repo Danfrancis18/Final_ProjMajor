@@ -209,12 +209,15 @@ self.updclick.place(x=120, y=345)
 self.delclick = customtkinter.CTkButton(self.tabview, command=delete, text="Delete", bg_color="transparent", font=customtkinter.CTkFont(size=14, weight="bold"), fg_color="#0D347C", text_color="white", width=200, height=35, hover_color="#570000")
 self.delclick.place(x=120, y=395)
 
-style = ttk.Style(self)
+self.treeframe = customtkinter.CTkFrame(self, width=555, height=440)
+self.treeframe.place(x=420, y=100)
+
+style = ttk.Style(self.treeframe)
 style.theme_use('clam')
 style.configure('Treeview', font=font3, foreground='#fff', background='#0a0b0c', fieldbackground='#222222', rowheight=40)
 style.map('Treeview', background=[('selected', '#9F0000')])
 
-tree = ttk.Treeview(self, height=13)
+tree = ttk.Treeview(self.treeframe, height=13)
 
 tree['columns'] = ('ProductID', 'ProductName', 'Price')
 
@@ -227,7 +230,14 @@ tree.heading('ProductID', text='ProductID')
 tree.heading('ProductName', text='Name')
 tree.heading('Price', text='Price')
 
-tree.place(x=520, y=130)
+tree.place(x=0, y=0)
+
+vsb = ttk.Scrollbar(self.treeframe, orient="vertical", command=tree.yview)
+vsb.place(x=680, y=0, height=595)  # Adjust height as needed
+
+        # Configure the Treeview to use the scrollbar
+tree.configure(yscrollcommand=vsb.set)
+
 tree.bind('<ButtonRelease>', display_data)
 
 add_to_treeview()
