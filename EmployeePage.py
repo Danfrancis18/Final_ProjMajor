@@ -164,6 +164,8 @@ class CIMOS_EmpPage(customtkinter.CTk):
                 tree.insert('', 'end', values=employee)
 
         def display_data(event):
+            self.updtbutton.configure(state='normal')
+            self.delbutton.configure(state='normal')
             item = tree.focus()
             if item:
                 values = tree.item(item, 'values')
@@ -189,6 +191,8 @@ class CIMOS_EmpPage(customtkinter.CTk):
 
             else:
                 pass
+
+        
 
         
 
@@ -409,12 +413,13 @@ class CIMOS_EmpPage(customtkinter.CTk):
             delete_employee.delete_employee()
             add_to_treeview()    
         
-        self.updtbutton = customtkinter.CTkButton(self.tabview, text="Update", bg_color="transparent", font=customtkinter.CTkFont(size=14, weight="bold"), command=updtfunc)
+        self.updtbutton = customtkinter.CTkButton(self.tabview, text="Update", bg_color="transparent", font=customtkinter.CTkFont(size=14, weight="bold"), state="disabled", command=updtfunc)
         self.updtbutton.grid(row=0, column=0, padx=(460,0), pady=(0,320))
         
-        self.delbutton = customtkinter.CTkButton(self.tabview, text="Delete", bg_color="transparent", font=customtkinter.CTkFont(size=14, weight="bold"), command=delete_emp)
+        self.delbutton = customtkinter.CTkButton(self.tabview, text="Delete", bg_color="transparent", font=customtkinter.CTkFont(size=14, weight="bold"), state="disabled", command=delete_emp)
         self.delbutton.grid(row=0, column=0, padx=(140,0), pady=(0,320))
         
+
         def update_delete(): #di ko pa alam
             self.updtbutton = customtkinter.CTkButton(self.seg_button_1, text="Update", bg_color="transparent", font=customtkinter.CTkFont(size=14, weight="bold"), width=290)
             self.updtbutton.grid(row=0, column=0, padx=(0,0), pady=(5,5))
