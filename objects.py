@@ -23,16 +23,43 @@ class Employee:
         self.JobID = JobID
 
     def create(self):
-        print(self.EmpID)
-        print(self.EmpFName)
-        print(self.EmpLName)
-        print(self.Birthday)
-        print(self.JobID)
-        print(self.DateofEmplymnt)
-        print(self.Address)
         mycursor.execute("INSERT INTO employeetbl (EmpID, EmpLName, EmpFName, Birthday, Address, DateofEmplymnt, JobID) VALUES (%s, %s, %s, %s, %s, %s, %s)",
                  (self.EmpID, self.EmpLName, self.EmpFName, self.Birthday, self.Address, self.DateofEmplymnt, self.JobID))
         mydb.commit()
 
 
         messagebox.showinfo("Success", "Employee Added Successfully")
+
+    def fetch_employee():
+        mycursor.execute('SELECT EmpID,EmpLName,EmpFName,Birthday,Address,JobDescription,TypeOfEmplymnt,DateOfEmplymnt FROM employeetree')
+        Employee = mycursor.fetchall()
+        mydb.commit()
+        return Employee
+
+    def fetch_ID():
+        mycursor.execute('SELECT EmpID FROM employeetbl')
+        Employee = mycursor.fetchall()
+        mydb.commit()
+        return Employee
+
+    def update_employee(self):
+        mycursor.execute("UPDATE employeetbl SET EmpLName = %s, EmpFName = %s, Birthday = %s, Address = %s, DateofEmplymnt = %s, JobID = %s WHERE EmpID = %s",
+                 (self.EmpLName, self.EmpFName, self.Birthday, self.Address, self.DateofEmplymnt, self.JobID, self.EmpID))
+        mydb.commit()
+        messagebox.showinfo("Success", "Employee Updated Successfully")
+
+    def delete_employee(self):
+        response = messagebox.askyesno("Delete", "Are you sure you want to delete this employee?")
+        if response == 1:
+            mycursor.execute("DELETE FROM employeetbl WHERE EmpID = %s", (self.EmpID,))
+            mydb.commit()
+            messagebox.showinfo("Success", "Employee Deleted Successfully")
+        else:
+            pass
+
+
+
+
+    
+
+

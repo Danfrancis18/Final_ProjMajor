@@ -155,6 +155,45 @@ class CIMOS_EmpPage(customtkinter.CTk):
         tree.heading('Date of Employment', text='Date Hired')
 
         tree.place(x=0, y=0)
+
+        def add_to_treeview():
+            employees = Employee.fetch_employee()
+            
+            tree.delete(*tree.get_children())
+            for employee in employees:
+                tree.insert('', 'end', values=employee)
+
+        def display_data(event):
+            item = tree.focus()
+            if item:
+                values = tree.item(item, 'values')
+                global updEmpID
+                updEmpID = values[0]
+                global updEmpLName
+                updEmpLName = values[1]
+                global updEmpFName
+                updEmpFName = values[2]
+                global updBirthday
+                updBirthday = values[3]
+                global updAddress
+                updAddress = values[4]
+                global updJobDescription
+                updJobDescription = values[5]
+                global updTypeOfEmplymnt
+                if values[6] == "Full-Time":
+                    updTypeOfEmplymnt = 1
+                else:
+                    updTypeOfEmplymnt = 0
+                global updDateOfEmplymnt
+                updDateOfEmplymnt = values[7]
+
+            else:
+                pass
+
+        
+
+
+        
         
         def addfunc():
             def collapse_menu1():
@@ -186,13 +225,6 @@ class CIMOS_EmpPage(customtkinter.CTk):
             self.addentry = customtkinter.CTkEntry(self.viewframe1, placeholder_text="Enter Address...")
             self.addentry.grid(row=0, column=0, padx=(140,20), pady=(110,185), sticky="nsew")
         
-            #self.ep_frame = customtkinter.CTkFrame(self.viewframe1)
-            #self.ep_frame.grid(row=0, column=0, padx=(170, 0), pady=(110,140), sticky="nsw")
-            #self.radio_var = tkinter.IntVar(value=0)
-            #self.radio_button_1 = customtkinter.CTkRadioButton(self.ep_frame, variable=self.radio_var, value=0, text="Full Time", border_color="#e86161")
-            #self.radio_button_1.grid(row=1, column=2, padx=(20,20), pady=(10,0), sticky="nw")
-            #self.radio_button_2 = customtkinter.CTkRadioButton(self.ep_frame, variable=self.radio_var, value=1, text="Part Time", border_color="#e86161")
-            #self.radio_button_2.grid(row=2, column=2, padx=(20,20), pady=(10,10), sticky="nw")
             
             self.bdaycal = DateEntry(self.viewframe1, width=12, background='#222222',foreground='white', locale='en_US', date_pattern='yyyy/MM/dd')
             self.bdaycal.grid(row=0, column=0, padx=(180,20), pady=(190,190), sticky="nsw")
@@ -242,6 +274,9 @@ class CIMOS_EmpPage(customtkinter.CTk):
 
                 new_employee.create()
 
+                add_to_treeview()
+
+
             self.add2button=customtkinter.CTkButton(self.viewframe1, text="Add Employee", bg_color="transparent", fg_color="#222222", text_color="white", font=customtkinter.CTkFont(size=14, weight="bold"), width=290, command=submit)
             self.add2button.grid(row=0, column=0, padx=(240,200), pady=(280,20), sticky="ew")
         
@@ -257,6 +292,10 @@ class CIMOS_EmpPage(customtkinter.CTk):
         
         #-----Update-------------------
         def updtfunc():
+
+
+
+
             def collapse_menu2():
                 self.viewframe2.destroy()
                 self.updtbutton = customtkinter.CTkButton(self.tabview, text="Update", bg_color="transparent", font=customtkinter.CTkFont(size=14, weight="bold"), command=updtfunc)
@@ -289,32 +328,91 @@ class CIMOS_EmpPage(customtkinter.CTk):
             self.radio_button_2 = customtkinter.CTkRadioButton(self.ep_frame, variable=self.radio_var, value=1, text="Full Time", border_color="#e86161")
             self.radio_button_2.grid(row=2, column=2, padx=(20,20), pady=(10,10), sticky="nw")
         
-            self.lnentry = customtkinter.CTkEntry(self.viewframe2, placeholder_text="Enter new last name...")
+            self.lnentry = customtkinter.CTkEntry(self.viewframe2)
+            
             self.lnentry.grid(row=0, column=0, padx=(110,350), pady=(30,265), sticky="nsew")
-            self.fnentry = customtkinter.CTkEntry(self.viewframe2, placeholder_text="Enter new first name...")
+            self.fnentry = customtkinter.CTkEntry(self.viewframe2)
+
             self.fnentry.grid(row=0, column=0, padx=(110,350), pady=(70,225), sticky="nsew")
-            self.addentry = customtkinter.CTkEntry(self.viewframe2, placeholder_text="Enter new Address...")
+            self.addentry = customtkinter.CTkEntry(self.viewframe2)
+
             self.addentry.grid(row=0, column=0, padx=(110,350), pady=(110,185), sticky="nsew")
             
             self.bdaycal = DateEntry(self.viewframe2, width=12, background='#222222',foreground='white', locale='en_US', date_pattern='yyyy/MM/dd')
             self.bdaycal.grid(row=0, column=0, padx=(0,100), pady=(180,190), sticky="ne")
-            self.bdaycal.bind("<<DateEntrySelected>>")
+
 
             self.jdchoose = customtkinter.CTkOptionMenu(self.viewframe2, dynamic_resizing=False, values=["Cashier", "Delivery", "Dishwasher", "Cleaner", "Cook"], button_color="white", button_hover_color="#222222")
             self.jdchoose.grid(row=0, column=0, padx=(140,350), pady=(180, 120), sticky="nsew")
-            self.jdchoose.set("-Choose-")
+
 
             self.hiredcal = DateEntry(self.viewframe2, width=12, background='#222222',foreground='white', locale='en_US', date_pattern='yyyy/MM/dd')
             self.hiredcal.grid(row=0, column=0, padx=(0,100), pady=(250,0), sticky="ne")
-            self.hiredcal.bind("<<DateEntrySelected>>")
 
-            self.updt2button=customtkinter.CTkButton(self.viewframe2, text="Update Employee", bg_color="transparent", fg_color="#222222", text_color="white", font=customtkinter.CTkFont(size=14, weight="bold"), width=290, command=None)
+            self.lnentry.insert(0, updEmpLName)
+            self.fnentry.insert(0, updEmpFName)
+            self.addentry.insert(0, updAddress)
+            self.bdaycal.set_date(updBirthday)
+            self.hiredcal.set_date(updDateOfEmplymnt)
+            self.jdchoose.set(updJobDescription)
+            self.radio_var.set(updTypeOfEmplymnt)
+
+            def update():
+                dumpEmpLName = self.lnentry.get()
+                dumpEmpFName = self.fnentry.get()
+                dumpBirthday = self.bdaycal.get()
+                dumpAddress = self.addentry.get()
+                dumpDateofEmplymnt = self.hiredcal.get()
+                dumpJobDescription = self.jdchoose.get()
+                dumpTypeOfEmplymnt = self.radio_var.get()
+                
+                if dumpJobDescription == "Cashier" and dumpTypeOfEmplymnt == 0:
+                    dumpJobID = 3
+                elif dumpJobDescription == "Cashier" and dumpTypeOfEmplymnt == 1:
+                    dumpJobID = 4
+                elif self.jdchoose.get() == "Delivery" and dumpTypeOfEmplymnt == 0:
+                    dumpJobID = 5
+                elif self.jdchoose.get() == "Delivery" and dumpTypeOfEmplymnt == 1:
+                    dumpJobID = 6
+                elif self.jdchoose.get() == "Dishwasher" and dumpTypeOfEmplymnt == 0:
+                    dumpJobID = 7
+                elif self.jdchoose.get() == "Dishwasher" and dumpTypeOfEmplymnt == 1:
+                    dumpJobID = 8
+                elif self.jdchoose.get() == "Cleaner" and dumpTypeOfEmplymnt == 0:
+                    dumpJobID = 9
+                elif self.jdchoose.get() == "Cleaner" and dumpTypeOfEmplymnt == 1:
+                    dumpJobID = 10
+                elif self.jdchoose.get() == "Cook" and dumpTypeOfEmplymnt == 0:
+                    dumpJobID = 11
+                elif self.jdchoose.get() == "Cook" and dumpTypeOfEmplymnt == 1:
+                    dumpJobID = 12
+
+                if dumpEmpLName == "" or dumpEmpFName == "" or dumpBirthday == "" or dumpAddress == "" or dumpDateofEmplymnt == "" or dumpJobID == "-Choose-":
+                    tkinter.messagebox.showerror("Error", "Please fill up all fields")
+                    return
+                else:
+                    new_employee = Employee(updEmpID, dumpEmpLName, dumpEmpFName, dumpBirthday, dumpAddress, dumpDateofEmplymnt, dumpJobID)
+
+                new_employee.update_employee()
+
+                add_to_treeview()
+
+            
+
+            self.updt2button=customtkinter.CTkButton(self.viewframe2, text="Update Employee", bg_color="transparent", fg_color="#222222", text_color="white", font=customtkinter.CTkFont(size=14, weight="bold"), width=290, command=update)
             self.updt2button.grid(row=0, column=0, padx=(240,200), pady=(280,20), sticky="ew")
+
+            
+        #-----Delete-------------------
+        def delete_emp():
+            delete_employee = Employee(updEmpID, updEmpLName, updEmpFName, updBirthday, updAddress, updDateOfEmplymnt, updJobDescription)
+            delete_employee.delete_employee()
+            add_to_treeview()    
         
         self.updtbutton = customtkinter.CTkButton(self.tabview, text="Update", bg_color="transparent", font=customtkinter.CTkFont(size=14, weight="bold"), command=updtfunc)
         self.updtbutton.grid(row=0, column=0, padx=(460,0), pady=(0,320))
         
-        self.delbutton = customtkinter.CTkButton(self.tabview, text="Delete", bg_color="transparent", font=customtkinter.CTkFont(size=14, weight="bold"), command=None)
+        self.delbutton = customtkinter.CTkButton(self.tabview, text="Delete", bg_color="transparent", font=customtkinter.CTkFont(size=14, weight="bold"), command=delete_emp)
         self.delbutton.grid(row=0, column=0, padx=(140,0), pady=(0,320))
         
         def update_delete(): #di ko pa alam
@@ -324,10 +422,9 @@ class CIMOS_EmpPage(customtkinter.CTk):
             self.delbutton.grid(row=0, column=0, padx=(0,0), pady=(20,20))
         
         
-        
-        
+        tree.bind('<<TreeviewSelect>>', display_data)
+        add_to_treeview()
             
-        
         
         #self.toggle_button = customtkinter.CTkButton
 
