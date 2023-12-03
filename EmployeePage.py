@@ -7,6 +7,7 @@ import os
 from tkcalendar import DateEntry
 import mysql.connector
 from objects import Employee
+from objects import Login
 
 mydb = mysql.connector.connect(
     host="localhost",
@@ -200,6 +201,8 @@ class CIMOS_EmpPage(customtkinter.CTk):
         
         
         def addfunc():
+            self.updtbutton.configure(state='disabled')
+            self.delbutton.configure(state='disabled')
             def collapse_menu1():
                 self.viewframe1.destroy()
                 self.addbutton = customtkinter.CTkButton(self.tabview, text="Add", bg_color="transparent", font=customtkinter.CTkFont(size=14, weight="bold"), command = addfunc)
@@ -245,7 +248,6 @@ class CIMOS_EmpPage(customtkinter.CTk):
 
             mycursor.execute("SELECT EmpID FROM employeetbl ORDER BY EmpID DESC LIMIT 1")
             numEmployee = mycursor.fetchone()
-            empcount = numEmployee[0]
             self.nextEmpID = numEmployee[0] + 1
 
             
@@ -269,6 +271,9 @@ class CIMOS_EmpPage(customtkinter.CTk):
                     dumpJobID = 10
                 elif self.jdchoose.get() == "Cook":
                     dumpJobID = 12
+                elif self.jdchoose.get() == "-Choose-":
+                    tkinter.messagebox.showerror("Error", "Please choose a job description")
+                    return
 
                 if dumpEmpLName == "" or dumpEmpFName == "" or dumpBirthday == "" or dumpAddress == "" or dumpDateofEmplymnt == "" or dumpJobID == "-Choose-":
                     tkinter.messagebox.showerror("Error", "Please fill up all fields")
@@ -297,10 +302,13 @@ class CIMOS_EmpPage(customtkinter.CTk):
         #-----Update-------------------
         def updtfunc():
 
+            self.addbutton.configure(state='disabled')
+
 
 
 
             def collapse_menu2():
+                self.addbutton.configure(state='normal')
                 self.viewframe2.destroy()
                 self.updtbutton = customtkinter.CTkButton(self.tabview, text="Update", bg_color="transparent", font=customtkinter.CTkFont(size=14, weight="bold"), command=updtfunc)
                 self.updtbutton.grid(row=0, column=0, padx=(460,0), pady=(0,320))
@@ -346,7 +354,7 @@ class CIMOS_EmpPage(customtkinter.CTk):
             self.bdaycal.grid(row=0, column=0, padx=(0,100), pady=(180,190), sticky="ne")
 
 
-            self.jdchoose = customtkinter.CTkOptionMenu(self.viewframe2, dynamic_resizing=False, values=["Cashier", "Delivery", "Dishwasher", "Cleaner", "Cook"], button_color="white", button_hover_color="#222222")
+            self.jdchoose = customtkinter.CTkOptionMenu(self.viewframe2, dynamic_resizing=False, values=["Manager","Cashier", "Delivery", "Dishwasher", "Cleaner", "Cook"], button_color="white", button_hover_color="#222222")
             self.jdchoose.grid(row=0, column=0, padx=(140,350), pady=(180, 120), sticky="nsew")
 
 
@@ -359,7 +367,7 @@ class CIMOS_EmpPage(customtkinter.CTk):
             self.bdaycal.set_date(updBirthday)
             self.hiredcal.set_date(updDateOfEmplymnt)
             self.jdchoose.set(updJobDescription)
-            self.radio_var.set(updTypeOfEmplymnt)
+            
 
             def update():
                 dumpEmpLName = self.lnentry.get()
@@ -369,26 +377,36 @@ class CIMOS_EmpPage(customtkinter.CTk):
                 dumpDateofEmplymnt = self.hiredcal.get()
                 dumpJobDescription = self.jdchoose.get()
                 dumpTypeOfEmplymnt = self.radio_var.get()
+
+                mycursor.execute("SELECT LoginID FROM logintbl ORDER BY LoginID DESC LIMIT 1")
+                numLogin = mycursor.fetchone()
+                self.nextLoginID = numLogin[0] + 1
+                dumpLoginID = self.nextLoginID
                 
-                if dumpJobDescription == "Cashier" and dumpTypeOfEmplymnt == 0:
-                    dumpJobID = 3
+                
+                if dumpJobDescription == "Manager" and dumpTypeOfEmplymnt == 1:
+                    dumpJobID = 2
+                if dumpJobDescription == "Manager" and dumpTypeOfEmplymnt == 0:
+                    dumpJobID = 2
                 elif dumpJobDescription == "Cashier" and dumpTypeOfEmplymnt == 1:
+                    dumpJobID = 3
+                elif dumpJobDescription == "Cashier" and dumpTypeOfEmplymnt == 0:
                     dumpJobID = 4
-                elif self.jdchoose.get() == "Delivery" and dumpTypeOfEmplymnt == 0:
-                    dumpJobID = 5
                 elif self.jdchoose.get() == "Delivery" and dumpTypeOfEmplymnt == 1:
+                    dumpJobID = 5
+                elif self.jdchoose.get() == "Delivery" and dumpTypeOfEmplymnt == 0:
                     dumpJobID = 6
-                elif self.jdchoose.get() == "Dishwasher" and dumpTypeOfEmplymnt == 0:
-                    dumpJobID = 7
                 elif self.jdchoose.get() == "Dishwasher" and dumpTypeOfEmplymnt == 1:
+                    dumpJobID = 7
+                elif self.jdchoose.get() == "Dishwasher" and dumpTypeOfEmplymnt == 0:
                     dumpJobID = 8
-                elif self.jdchoose.get() == "Cleaner" and dumpTypeOfEmplymnt == 0:
-                    dumpJobID = 9
                 elif self.jdchoose.get() == "Cleaner" and dumpTypeOfEmplymnt == 1:
+                    dumpJobID = 9
+                elif self.jdchoose.get() == "Cleaner" and dumpTypeOfEmplymnt == 0:
                     dumpJobID = 10
-                elif self.jdchoose.get() == "Cook" and dumpTypeOfEmplymnt == 0:
-                    dumpJobID = 11
                 elif self.jdchoose.get() == "Cook" and dumpTypeOfEmplymnt == 1:
+                    dumpJobID = 11
+                elif self.jdchoose.get() == "Cook" and dumpTypeOfEmplymnt == 0:
                     dumpJobID = 12
 
                 if dumpEmpLName == "" or dumpEmpFName == "" or dumpBirthday == "" or dumpAddress == "" or dumpDateofEmplymnt == "" or dumpJobID == "-Choose-":
@@ -396,8 +414,32 @@ class CIMOS_EmpPage(customtkinter.CTk):
                     return
                 else:
                     new_employee = Employee(updEmpID, dumpEmpLName, dumpEmpFName, dumpBirthday, dumpAddress, dumpDateofEmplymnt, dumpJobID)
+                
+                def check_if_manager_exists(empID):
+                    mycursor.execute("SELECT * FROM logintbl WHERE EmpID = %s", [empID])
+                    result = mycursor.fetchone()
+                    if result:
+                        return True
+                    else:
+                        return False
+                if dumpJobID == 2:
+                    if check_if_manager_exists(updEmpID):
+                        tkinter.messagebox.showerror("Error", "Manager already exists")
+                        return
+                        
+                    else:
+                        
+                        new_login = Login(dumpLoginID, "Admin", updEmpID, dumpEmpLName+updEmpID, "password")
+                        new_login.create_admin()
 
+                
+                else:
+                    pass
+                
+                 
                 new_employee.update_employee()
+
+
 
                 add_to_treeview()
 
@@ -420,11 +462,7 @@ class CIMOS_EmpPage(customtkinter.CTk):
         self.delbutton.grid(row=0, column=0, padx=(140,0), pady=(0,320))
         
 
-        def update_delete(): #di ko pa alam
-            self.updtbutton = customtkinter.CTkButton(self.seg_button_1, text="Update", bg_color="transparent", font=customtkinter.CTkFont(size=14, weight="bold"), width=290)
-            self.updtbutton.grid(row=0, column=0, padx=(0,0), pady=(5,5))
-            self.delbutton = customtkinter.CTkButton(self.seg_button_1, text="Delete", bg_color="transparent", font=customtkinter.CTkFont(size=14, weight="bold"), width=290)
-            self.delbutton.grid(row=0, column=0, padx=(0,0), pady=(20,20))
+
         
         
         tree.bind('<<TreeviewSelect>>', display_data)

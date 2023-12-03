@@ -27,7 +27,6 @@ class Employee:
                  (self.EmpID, self.EmpLName, self.EmpFName, self.Birthday, self.Address, self.DateofEmplymnt, self.JobID))
         mydb.commit()
 
-
         messagebox.showinfo("Success", "Employee Added Successfully")
 
     def fetch_employee():
@@ -47,6 +46,7 @@ class Employee:
                  (self.EmpLName, self.EmpFName, self.Birthday, self.Address, self.DateofEmplymnt, self.JobID, self.EmpID))
         mydb.commit()
         messagebox.showinfo("Success", "Employee Updated Successfully")
+        
 
     def delete_employee(self):
         response = messagebox.askyesno("Delete", "Are you sure you want to delete this employee?")
@@ -56,6 +56,23 @@ class Employee:
             messagebox.showinfo("Success", "Employee Deleted Successfully")
         else:
             pass
+    
+class Login:
+    def __init__(self,LoginID,LoginCredentials,EmpID,Username,Password):
+        self.LoginID = LoginID
+        self.LoginCredentials = LoginCredentials
+        self.EmpID = EmpID
+        self.Username = Username
+        self.Password = Password
+
+
+    def create_admin(self):
+            mycursor.execute("INSERT INTO logintbl (LoginCredentials, EmpID, Username, Password) VALUES (%s, %s, %s, %s)",
+                    (self.LoginCredentials, self.EmpID, self.Username, self.Password))
+            mydb.commit()
+            messagebox.showinfo("Success", "Admin Added Successfully")
+
+    
 
 
 
