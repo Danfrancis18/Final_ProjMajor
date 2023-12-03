@@ -117,6 +117,13 @@ def home():
     self.destroy()
     os.system('python adminpage.py')
 
+def employeepage():
+    self.destroy()
+    os.system('python EmployeePage.py')
+
+def salespage():
+    print('wala pa')
+
 def toggle_menu():
     def collapse_menu():
         self.my_frame.destroy()
@@ -131,43 +138,25 @@ def toggle_menu():
     self.Image_label.grid(row=0, column=0, padx=(0, 920), pady=(0,500))
         #----Menu----------------------------------------------------------------------------------------------------------------------------------------------------
             #----Employee Tab----------------------------------------------------------------------------------------------------------------------------------------------------------
-    def togmenu1():
-        self.empbutton = customtkinter.CTkButton(self.my_frame, text="Employee", fg_color="#FFC3B4", bg_color="transparent", font=customtkinter.CTkFont(size=14, weight="bold"), corner_radius=0, command=togmenu1)
-        self.empbutton.grid(row=0, column=0, padx=(0,0), pady=(10,290))
-        self.prodbutton = customtkinter.CTkButton(self.my_frame, text="Menu", fg_color="transparent", bg_color="transparent", font=customtkinter.CTkFont(size=14, weight="bold"), command=togmenu2)
-        self.prodbutton.grid(row=0, column=0, padx=(2,2), pady=(10,220))
-        self.salesbutton = customtkinter.CTkButton(self.my_frame, text="Sales", fg_color="transparent", bg_color="transparent", font=customtkinter.CTkFont(size=14, weight="bold"), command=togmenu3)
-        self.salesbutton.grid(row=0, column=0, padx=(2,2), pady=(10,150))
-        self.homebutton = customtkinter.CTkButton(self.my_frame, text="Home", fg_color="#9f1111", bg_color="transparent", text_color="white", font=customtkinter.CTkFont(size=14, weight="bold"), command=home)
-        self.homebutton.grid(row=0, column=0, padx=(2,2), pady=(0,10))
             
-    self.empbutton = customtkinter.CTkButton(self.my_frame, text="Employee", fg_color="#FFC3B4", bg_color="transparent", font=customtkinter.CTkFont(size=14, weight="bold"), corner_radius=0, command=togmenu1)
+    self.empbutton = customtkinter.CTkButton(self.my_frame, text="Employee", fg_color="transparent", bg_color="transparent", font=customtkinter.CTkFont(size=14, weight="bold"), corner_radius=0, command=employeepage)
     self.empbutton.grid(row=0, column=0, padx=(0,0), pady=(10,290))
             #-----Menu Tab--------------------------------------------------------------------------------------------------------------------------------------------------
     def togmenu2():
-        self.empbutton = customtkinter.CTkButton(self.my_frame, text="Employee", fg_color="transparent", bg_color="transparent", font=customtkinter.CTkFont(size=14, weight="bold"), command=togmenu1)
+        self.empbutton = customtkinter.CTkButton(self.my_frame, text="Employee", fg_color="transparent", bg_color="transparent", font=customtkinter.CTkFont(size=14, weight="bold"), command=employeepage)
         self.empbutton.grid(row=0, column=0, padx=(0,0), pady=(10,290))
         self.prodbutton = customtkinter.CTkButton(self.my_frame, text="Menu", fg_color="#FFC3B4", bg_color="transparent", font=customtkinter.CTkFont(size=14, weight="bold"), corner_radius=0, command=togmenu2)
         self.prodbutton.grid(row=0, column=0, padx=(2,2), pady=(10,220))
-        self.salesbutton = customtkinter.CTkButton(self.my_frame, text="Sales", fg_color="transparent", bg_color="transparent", font=customtkinter.CTkFont(size=14, weight="bold"), command=togmenu3)
+        self.salesbutton = customtkinter.CTkButton(self.my_frame, text="Sales", fg_color="transparent", bg_color="transparent", font=customtkinter.CTkFont(size=14, weight="bold"), command=salespage)
         self.salesbutton.grid(row=0, column=0, padx=(2,2), pady=(10,150))
         self.homebutton = customtkinter.CTkButton(self.my_frame, text="Home", fg_color="#9f1111", bg_color="transparent", text_color="white", font=customtkinter.CTkFont(size=14, weight="bold"), command=home)
         self.homebutton.grid(row=0, column=0, padx=(2,2), pady=(0,10))
 
-    self.prodbutton = customtkinter.CTkButton(self.my_frame, text="Menu", fg_color="transparent", bg_color="transparent", font=customtkinter.CTkFont(size=14, weight="bold"), command=togmenu2)
+    self.prodbutton = customtkinter.CTkButton(self.my_frame, text="Menu", fg_color="#FFC3B4", bg_color="transparent", font=customtkinter.CTkFont(size=14, weight="bold"), command=togmenu2)
     self.prodbutton.grid(row=0, column=0, padx=(2,2), pady=(10,220))
             #------Sales Tab--------------------------------------------------------------------------------------------------------------------------------------------------
-    def togmenu3():
-        self.empbutton = customtkinter.CTkButton(self.my_frame, text="Employee", fg_color="transparent", bg_color="transparent", font=customtkinter.CTkFont(size=14, weight="bold"), command=togmenu1)
-        self.empbutton.grid(row=0, column=0, padx=(0,0), pady=(10,290))
-        self.prodbutton = customtkinter.CTkButton(self.my_frame, text="Menu", fg_color="transparent", bg_color="transparent", font=customtkinter.CTkFont(size=14, weight="bold"), command=togmenu2)
-        self.prodbutton.grid(row=0, column=0, padx=(2,2), pady=(10,220))
-        self.salesbutton = customtkinter.CTkButton(self.my_frame, text="Sales", fg_color="#FFC3B4", bg_color="transparent", font=customtkinter.CTkFont(size=14, weight="bold"), corner_radius=0, command=togmenu3)
-        self.salesbutton.grid(row=0, column=0, padx=(2,2), pady=(10,150))
-        self.homebutton = customtkinter.CTkButton(self.my_frame, text="Home", fg_color="#9f1111", bg_color="transparent", text_color="white", font=customtkinter.CTkFont(size=14, weight="bold"), command=home)
-        self.homebutton.grid(row=0, column=0, padx=(2,2), pady=(0,10))
                 
-    self.salesbutton = customtkinter.CTkButton(self.my_frame, text="Sales", fg_color="transparent", bg_color="transparent", font=customtkinter.CTkFont(size=14, weight="bold"), command=togmenu3)
+    self.salesbutton = customtkinter.CTkButton(self.my_frame, text="Sales", fg_color="transparent", bg_color="transparent", font=customtkinter.CTkFont(size=14, weight="bold"), command=salespage)
     self.salesbutton.grid(row=0, column=0, padx=(2,2), pady=(10,150))
             
     self.homebutton = customtkinter.CTkButton(self.my_frame, text="Home", fg_color="#9f1111", bg_color="transparent", text_color="white", font=customtkinter.CTkFont(size=14, weight="bold"), command=home)
