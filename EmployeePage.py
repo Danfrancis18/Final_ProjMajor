@@ -129,7 +129,7 @@ class CIMOS_EmpPage(customtkinter.CTk):
         
         style = ttk.Style(self.viewframe)
         style.theme_use('clam')
-        style.configure('Treeview', font=('Arial', 14, 'bold'), foreground='#fff', background='#777777', fieldbackground='#222222', rowheight=38)
+        style.configure('Treeview', font=('Arial', 12, 'bold'), foreground='#fff', background='#777777', fieldbackground='#222222', rowheight=38)
         style.map('Treeview', background=[('selected', '#9F0000')])
 
         tree = ttk.Treeview(self.viewframe, height=10)
@@ -137,13 +137,13 @@ class CIMOS_EmpPage(customtkinter.CTk):
         tree['columns'] = ('EmpID', 'Last Name', 'First Name', 'Birthday', 'Address', 'Position', 'Type of Employment', 'Date of Employment')
 
         tree.column('#0', width=0, stretch=tk.NO)
-        tree.column('EmpID', anchor=tk.CENTER, width=140)
+        tree.column('EmpID', anchor=tk.CENTER, width=80)
         tree.column('Last Name', anchor=tk.CENTER, width=140)
         tree.column('First Name', anchor=tk.CENTER, width=140)
         tree.column('Birthday', anchor=tk.CENTER, width=140)
-        tree.column('Address', anchor=tk.CENTER, width=140)
+        tree.column('Address', anchor=tk.CENTER, width=210)
         tree.column('Position', anchor=tk.CENTER, width=140)
-        tree.column('Type of Employment', anchor=tk.CENTER, width=140)
+        tree.column('Type of Employment', anchor=tk.CENTER, width=130)
         tree.column('Date of Employment', anchor=tk.CENTER, width=140)
 
         tree.heading('EmpID', text='EmpID')
@@ -154,6 +154,11 @@ class CIMOS_EmpPage(customtkinter.CTk):
         tree.heading('Position', text='Job Description')
         tree.heading('Type of Employment', text='Type of Employment')
         tree.heading('Date of Employment', text='Date Hired')
+        
+        vsb = tk.Scrollbar(self.tabview, orient="vertical", command=tree.yview, width=16)
+        vsb.place(x=1160, y=106, height=374)
+
+        tree.configure(yscrollcommand=vsb.set)
 
         tree.place(x=0, y=0)
 
