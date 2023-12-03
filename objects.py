@@ -72,6 +72,12 @@ class Login:
         mydb.commit()
         messagebox.showinfo("Success", "Account Created Successfully")
 
+    def update_admin(self):
+        mycursor.execute("UPDATE logintbl SET LoginCredentials = %s WHERE EmpID = %s",
+        (self.LoginCredentials, self.EmpID))
+        mydb.commit()
+        messagebox.showinfo("Success", "Account Updated Successfully")
+
 
     
 

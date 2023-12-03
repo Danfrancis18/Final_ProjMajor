@@ -251,6 +251,7 @@ class CIMOS_EmpPage(customtkinter.CTk):
             
                 
                 dumpEmpID = self.nextEmpID
+                strDumpEmpID = str(dumpEmpID)
                 dumpEmpLName = self.lnentry.get()
                 dumpEmpFName = self.fnentry.get()
                 dumpBirthday = self.bdaycal.get()
@@ -277,6 +278,9 @@ class CIMOS_EmpPage(customtkinter.CTk):
                 else:
                     new_employee = Employee(dumpEmpID, dumpEmpLName, dumpEmpFName, dumpBirthday, dumpAddress, dumpDateofEmplymnt, dumpJobID)
 
+                if dumpJobID == 3 or dumpJobID == 4:
+                    new_cashier = Login(0, "User", dumpEmpID, dumpEmpLName+strDumpEmpID, 'password')
+                    new_cashier.create_admin()
                 new_employee.create()
 
                 add_to_treeview()
@@ -420,24 +424,34 @@ class CIMOS_EmpPage(customtkinter.CTk):
                     new_employee = Employee(updEmpID, dumpEmpLName, dumpEmpFName, dumpBirthday, dumpAddress, dumpDateofEmplymnt, dumpJobID)
                     
 
-                    mycursor.execute("SELECT EmpID FROM logintbl WHERE EmpID = %s", (updEmpID,))
+                    mycursor.execute("SELECT LoginID,EmpID FROM logintbl WHERE EmpID = %s", (updEmpID,))
                     checkID = mycursor.fetchone()
+                    mydb.commit()
                     
                     print (checkID)
                     print (updEmpID)
                     if dumpJobID == 2:
                         try:
-                            checkID[0] != updEmpID
+                            checkID[1] != updEmpID
+                            up_login = Login(dumpLoginID, "Admin", updEmpID, dumpEmpLName+updEmpID, 'password')
+                            up_login.update_admin()
+
+                                    
                         except:
                             new_login = Login(dumpLoginID, "Admin", updEmpID, dumpEmpLName+updEmpID, 'password')
                             new_login.create_admin()
-
+                            
+                        
                     if dumpJobID == 3 or dumpJobID == 4:
                         try:
-                            checkID[0] != updEmpID
+                            checkID[1] != updEmpID
+                            up_login = Login(dumpLoginID, "User", updEmpID, dumpEmpLName+updEmpID, 'password')
+                            up_login.update_admin()
+                                
                         except:
                             new_login = Login(dumpLoginID, "User", updEmpID, dumpEmpLName+updEmpID, 'password')
                             new_login.create_admin()
+                            
                         
 
                 
