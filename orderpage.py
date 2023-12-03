@@ -55,53 +55,15 @@ def toggle_menu():
         self.Image_label.grid(row=0, column=0, padx=(0, 920), pady=(0,500))
                 
     self.my_frame = customtkinter.CTkFrame(self, width=220, height=40, corner_radius=10, fg_color="white", bg_color="transparent")
-    self.my_frame.grid(row=0, column=0, padx=(0, 820), pady=(70,330), sticky="ns")
+    self.my_frame.grid(row=0, column=0, padx=(60, 700), pady=(20,522), sticky="ns")
     self.menuimg = customtkinter.CTkImage(light_image=Image.open(os.path.join("menu1.png")), dark_image=Image.open(os.path.join("menu.png")),size=(40,40))
     self.Image_label = customtkinter.CTkButton(self, text="", image=self.menuimg, fg_color="transparent", width=40, height=40, command=collapse_menu)
     self.Image_label.grid(row=0, column=0, padx=(0, 920), pady=(0,500))
         #----Menu----------------------------------------------------------------------------------------------------------------------------------------------------
-            #----Employee Tab----------------------------------------------------------------------------------------------------------------------------------------------------------
-    def togmenu1():
-        self.empbutton = customtkinter.CTkButton(self.my_frame, text="Employee", fg_color="#FFC3B4", bg_color="transparent", font=customtkinter.CTkFont(size=14, weight="bold"), corner_radius=0, command=togmenu1)
-        self.empbutton.grid(row=0, column=0, padx=(0,0), pady=(10,290))
-        self.prodbutton = customtkinter.CTkButton(self.my_frame, text="Menu", fg_color="transparent", bg_color="transparent", font=customtkinter.CTkFont(size=14, weight="bold"), command=togmenu2)
-        self.prodbutton.grid(row=0, column=0, padx=(2,2), pady=(10,220))
-        self.salesbutton = customtkinter.CTkButton(self.my_frame, text="Sales", fg_color="transparent", bg_color="transparent", font=customtkinter.CTkFont(size=14, weight="bold"), command=togmenu3)
-        self.salesbutton.grid(row=0, column=0, padx=(2,2), pady=(10,150))
-        self.lobutton = customtkinter.CTkButton(self.my_frame, text="Log out", fg_color="#9f1111", bg_color="transparent", text_color="white", font=customtkinter.CTkFont(size=14, weight="bold"), command=logout)
-        self.lobutton.grid(row=0, column=0, padx=(2,2), pady=(0,10))
+            #----Employee Tab----------------------------------------------------------------------------------------------------------------------------------------------------------   
             
-    self.empbutton = customtkinter.CTkButton(self.my_frame, text="Employee", fg_color="#FFC3B4", bg_color="transparent", font=customtkinter.CTkFont(size=14, weight="bold"), corner_radius=0, command=togmenu1)
-    self.empbutton.grid(row=0, column=0, padx=(0,0), pady=(10,290))
-            #-----Menu Tab--------------------------------------------------------------------------------------------------------------------------------------------------
-    def togmenu2():
-        self.empbutton = customtkinter.CTkButton(self.my_frame, text="Employee", fg_color="transparent", bg_color="transparent", font=customtkinter.CTkFont(size=14, weight="bold"), command=togmenu1)
-        self.empbutton.grid(row=0, column=0, padx=(0,0), pady=(10,290))
-        self.prodbutton = customtkinter.CTkButton(self.my_frame, text="Menu", fg_color="#FFC3B4", bg_color="transparent", font=customtkinter.CTkFont(size=14, weight="bold"), corner_radius=0, command=togmenu2)
-        self.prodbutton.grid(row=0, column=0, padx=(2,2), pady=(10,220))
-        self.salesbutton = customtkinter.CTkButton(self.my_frame, text="Sales", fg_color="transparent", bg_color="transparent", font=customtkinter.CTkFont(size=14, weight="bold"), command=togmenu3)
-        self.salesbutton.grid(row=0, column=0, padx=(2,2), pady=(10,150))
-        self.lobutton = customtkinter.CTkButton(self.my_frame, text="Log out", fg_color="#9f1111", bg_color="transparent", text_color="white", font=customtkinter.CTkFont(size=14, weight="bold"), command=logout)
-        self.lobutton.grid(row=0, column=0, padx=(2,2), pady=(0,10))
-
-    self.prodbutton = customtkinter.CTkButton(self.my_frame, text="Menu", fg_color="transparent", bg_color="transparent", font=customtkinter.CTkFont(size=14, weight="bold"), command=togmenu2)
-    self.prodbutton.grid(row=0, column=0, padx=(2,2), pady=(10,220))
-            #------Sales Tab--------------------------------------------------------------------------------------------------------------------------------------------------
-    def togmenu3():
-        self.empbutton = customtkinter.CTkButton(self.my_frame, text="Employee", fg_color="transparent", bg_color="transparent", font=customtkinter.CTkFont(size=14, weight="bold"), command=togmenu1)
-        self.empbutton.grid(row=0, column=0, padx=(0,0), pady=(10,290))
-        self.prodbutton = customtkinter.CTkButton(self.my_frame, text="Menu", fg_color="transparent", bg_color="transparent", font=customtkinter.CTkFont(size=14, weight="bold"), command=togmenu2)
-        self.prodbutton.grid(row=0, column=0, padx=(2,2), pady=(10,220))
-        self.salesbutton = customtkinter.CTkButton(self.my_frame, text="Sales", fg_color="#FFC3B4", bg_color="transparent", font=customtkinter.CTkFont(size=14, weight="bold"), corner_radius=0, command=togmenu3)
-        self.salesbutton.grid(row=0, column=0, padx=(2,2), pady=(10,150))
-        self.lobutton = customtkinter.CTkButton(self.my_frame, text="Log out", fg_color="#9f1111", bg_color="transparent", text_color="white", font=customtkinter.CTkFont(size=14, weight="bold"), command=logout)
-        self.lobutton.grid(row=0, column=0, padx=(2,2), pady=(0,10))
-                
-    self.salesbutton = customtkinter.CTkButton(self.my_frame, text="Sales", fg_color="transparent", bg_color="transparent", font=customtkinter.CTkFont(size=14, weight="bold"), command=togmenu3)
-    self.salesbutton.grid(row=0, column=0, padx=(2,2), pady=(10,150))
-            
-    self.lobutton = customtkinter.CTkButton(self.my_frame, text="Log out", fg_color="#9f1111", bg_color="transparent", text_color="white", font=customtkinter.CTkFont(size=14, weight="bold"), command=logout)
-    self.lobutton.grid(row=0, column=0, padx=(2,2), pady=(0,10))
+    self.lobutton = customtkinter.CTkButton(self.my_frame, text="Log out", fg_color="#9f1111", bg_color="transparent", text_color="white", font=customtkinter.CTkFont(size=14, weight="bold"), width=200, command=logout)
+    self.lobutton.grid(row=0, column=0, padx=(5,5), pady=(5,5), sticky="ns")
             
 self.menuimg = customtkinter.CTkImage(light_image=Image.open(os.path.join("menu1.png")), dark_image=Image.open(os.path.join("menu.png")),size=(40,40))
 self.Image_label = customtkinter.CTkButton(self, text="", image=self.menuimg, fg_color="transparent", width=40, height=40, command=toggle_menu)
