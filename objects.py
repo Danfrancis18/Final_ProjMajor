@@ -67,10 +67,11 @@ class Login:
 
 
     def create_admin(self):
-            mycursor.execute("INSERT INTO logintbl (LoginCredentials, EmpID, Username, Password) VALUES (%s, %s, %s, %s)",
-                    (self.LoginCredentials, self.EmpID, self.Username, self.Password))
-            mydb.commit()
-            messagebox.showinfo("Success", "Admin Added Successfully")
+        mycursor.execute("INSERT INTO logintbl (LoginCredentials, EmpID, Username, Password) VALUES (%s, %s, %s, %s)",
+        (self.LoginCredentials, self.EmpID, self.Username, self.Password))
+        mydb.commit()
+        messagebox.showinfo("Success", "Account Created Successfully")
+
 
     
 
