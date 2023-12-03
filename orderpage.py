@@ -54,8 +54,8 @@ def toggle_menu():
         self.Image_label = customtkinter.CTkButton(self, text="", image=self.menuimg, fg_color="transparent", width=40, height=40, command=toggle_menu)
         self.Image_label.grid(row=0, column=0, padx=(0, 920), pady=(0,500))
                 
-    self.my_frame = customtkinter.CTkFrame(self, width=220, height=40, corner_radius=10, fg_color="white", bg_color="transparent")
-    self.my_frame.grid(row=0, column=0, padx=(60, 700), pady=(20,522), sticky="ns")
+    self.my_frame = customtkinter.CTkFrame(self, width=220, height=100, corner_radius=10, fg_color="white", bg_color="transparent")
+    self.my_frame.grid(row=0, column=0, padx=(60, 700), pady=(20,490), sticky="ns")
     self.menuimg = customtkinter.CTkImage(light_image=Image.open(os.path.join("menu1.png")), dark_image=Image.open(os.path.join("menu.png")),size=(40,40))
     self.Image_label = customtkinter.CTkButton(self, text="", image=self.menuimg, fg_color="transparent", width=40, height=40, command=collapse_menu)
     self.Image_label.grid(row=0, column=0, padx=(0, 920), pady=(0,500))
@@ -63,7 +63,34 @@ def toggle_menu():
             #----Employee Tab----------------------------------------------------------------------------------------------------------------------------------------------------------   
             
     self.lobutton = customtkinter.CTkButton(self.my_frame, text="Log out", fg_color="#9f1111", bg_color="transparent", text_color="white", font=customtkinter.CTkFont(size=14, weight="bold"), width=200, command=logout)
-    self.lobutton.grid(row=0, column=0, padx=(5,5), pady=(5,5), sticky="ns")
+    self.lobutton.grid(row=0, column=0, padx=(5,5), pady=(5,100), sticky="ns")
+    
+    def pop():      
+        self.passframe = customtkinter.CTkToplevel(self,fg_color="#333333")
+        self.passframe.title("Change Password")
+        self.passframe.geometry("180x260+462+235")
+        self.passframe.grab_set()
+        
+        self.current = customtkinter.CTkLabel(self.passframe, font=('Microsoft YaHei UI Light', 10), text="Current Password: ", text_color="white", bg_color="transparent")
+        self.current.place(x=20, y=10)
+        self.cupass_entry = customtkinter.CTkEntry(self.passframe, font=('Microsoft YaHei UI Light', 10), text_color="#000", fg_color="White", border_color='#9F0000', border_width=0, width=140, height=20)
+        self.cupass_entry.place(x=20, y=40)
+        
+        self.newp = customtkinter.CTkLabel(self.passframe, font=('Microsoft YaHei UI Light', 10), text="New Password: ", text_color="white", bg_color="transparent")
+        self.newp.place(x=20, y=70)
+        self.nupass_entry = customtkinter.CTkEntry(self.passframe, font=('Microsoft YaHei UI Light', 10), text_color="#000", fg_color="White", border_color='#9F0000', border_width=0, width=140, height=20)
+        self.nupass_entry.place(x=20, y=100)
+        
+        self.conp = customtkinter.CTkLabel(self.passframe, font=('Microsoft YaHei UI Light', 10), text="Confirm Password: ", text_color="white", bg_color="transparent")
+        self.conp.place(x=20, y=130)
+        self.confirm_entry = customtkinter.CTkEntry(self.passframe, font=('Microsoft YaHei UI Light', 10), text_color="#000", fg_color="White", border_color='#9F0000', border_width=0, width=140, height=20)
+        self.confirm_entry.place(x=20, y=160)
+        
+        changebutton = customtkinter.CTkButton(self.passframe, text="Change Password", bg_color="transparent", text_color="White", font=customtkinter.CTkFont('Microsoft YaHei UI', size=10, weight="bold"), command = None, fg_color="#9F0000")
+        changebutton.place(x=20, y=215)
+    
+    self.chabutton = customtkinter.CTkButton(self.my_frame, text="Change Password", fg_color="#333333", bg_color="transparent", text_color="white", font=customtkinter.CTkFont('Microsoft YaHei UI', size=12, weight="bold"), width=160, height=8, command=pop)
+    self.chabutton.grid(row=0, column=0, padx=(5,5), pady=(35,70), sticky="ns")
             
 self.menuimg = customtkinter.CTkImage(light_image=Image.open(os.path.join("menu1.png")), dark_image=Image.open(os.path.join("menu.png")),size=(40,40))
 self.Image_label = customtkinter.CTkButton(self, text="", image=self.menuimg, fg_color="transparent", width=40, height=40, command=toggle_menu)
