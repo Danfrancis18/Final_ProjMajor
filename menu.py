@@ -222,7 +222,7 @@ tree.heading('Price', text='Price')
 tree.place(x=0, y=0)
 
 vsb = tk.Scrollbar(self.treeframe, orient="vertical", command=tree.yview, width=16)
-vsb.place(x=678, y=2, height=545)  # Adjust height as needed
+vsb.place(x=678, y=2, height=547)  # Adjust height as needed
 
         # Configure the Treeview to use the scrollbar
 tree.configure(yscrollcommand=vsb.set)
