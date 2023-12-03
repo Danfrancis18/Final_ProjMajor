@@ -66,6 +66,40 @@ class CIMOS_Admin(customtkinter.CTk):
         self.logo_label.grid(row=0, column=0, padx=(0,0), pady=(160, 0))
         self.outbutton = customtkinter.CTkButton(self.my_frame, text="Log out", bg_color="transparent", font=customtkinter.CTkFont(size=14, weight="bold"), command=logout)
         self.outbutton.grid(row=1, column=0, padx=(10,10), pady=(300,0), sticky="ew")
+        label=tk.Label(self.my_frame, text="Change Password?", fg='black', bg="white", font=('Microsoft YaHei UI Light', 10))
+        label.place(x=42, y=640)
+        
+        def pop():
+            def collapse_():
+                self.passframe.destroy()
+                
+            self.passframe = customtkinter.CTkFrame(self.my_frame, width=180, height=260, corner_radius=6, bg_color="transparent")
+            self.passframe.grid(row=1, column=0, padx=(0, 0), pady=(0,80))
+            cpass= tk.Button(self.passframe, width=3, height=1, text='x', border=0, bg="#333333", cursor='hand2', fg="white", font=('Microsoft YaHei UI', 12), command=collapse_)
+            cpass.place(x=185, y=0)
+        
+            self.current = customtkinter.CTkLabel(self.passframe, font=('Microsoft YaHei UI Light', 10), text="Current Password: ", text_color="white", bg_color="transparent")
+            self.current.place(x=20, y=10)
+            self.cupass_entry = customtkinter.CTkEntry(self.passframe, font=('Microsoft YaHei UI Light', 10), text_color="#000", fg_color="White", border_color='#9F0000', border_width=0, width=140, height=20)
+            self.cupass_entry.place(x=20, y=40)
+        
+            self.newp = customtkinter.CTkLabel(self.passframe, font=('Microsoft YaHei UI Light', 10), text="New Password: ", text_color="white", bg_color="transparent")
+            self.newp.place(x=20, y=70)
+            self.nupass_entry = customtkinter.CTkEntry(self.passframe, font=('Microsoft YaHei UI Light', 10), text_color="#000", fg_color="White", border_color='#9F0000', border_width=0, width=140, height=20)
+            self.nupass_entry.place(x=20, y=100)
+        
+            self.conp = customtkinter.CTkLabel(self.passframe, font=('Microsoft YaHei UI Light', 10), text="Confirm Password: ", text_color="white", bg_color="transparent")
+            self.conp.place(x=20, y=130)
+            self.confirm_entry = customtkinter.CTkEntry(self.passframe, font=('Microsoft YaHei UI Light', 10), text_color="#000", fg_color="White", border_color='#9F0000', border_width=0, width=140, height=20)
+            self.confirm_entry.place(x=20, y=160)
+        
+            changebutton = customtkinter.CTkButton(self.passframe, text="Change Password", bg_color="transparent", font=customtkinter.CTkFont('Microsoft YaHei UI', size=10, weight="bold"), command = None)
+            changebutton.place(x=20, y=215)
+
+        cpass= tk.Button(self.my_frame, width=9, text='Click here', border=0, bg="white", cursor='hand2', fg="#2B65EC", font=('Microsoft YaHei UI Light', 10), command=pop)
+        cpass.place(x=160, y=638)
+        
+        
         
         
         #Interface Title
