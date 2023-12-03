@@ -39,7 +39,7 @@ class CIMOS_EmpPage(customtkinter.CTk):
         # configure window
         self.title("Employee Management")
         self.geometry(f"1000x580+350+130")
-        self.bind("<1>", lambda event: event.widget.focus_set())
+        #self.bind("<1>", lambda event: event.widget.focus_set())
         self.resizable(False, False)
         
         self.grid_rowconfigure(0, weight=1)  # configure grid system
@@ -242,7 +242,9 @@ class CIMOS_EmpPage(customtkinter.CTk):
 
             mycursor.execute("SELECT EmpID FROM employeetbl ORDER BY EmpID DESC LIMIT 1")
             numEmployee = mycursor.fetchone()
+            mydb.commit()
             self.nextEmpID = numEmployee[0] + 1
+
 
             
             def submit():
@@ -278,9 +280,10 @@ class CIMOS_EmpPage(customtkinter.CTk):
                 new_employee.create()
 
                 add_to_treeview()
+                
 
 
-            self.add2button=customtkinter.CTkButton(self.viewframe1, text="Add Employee", bg_color="transparent", fg_color="#222222", text_color="white", font=customtkinter.CTkFont(size=14, weight="bold"), width=290, command=submit)
+            self.add2button=customtkinter.CTkButton(self.viewframe1, text="Add Employee", bg_color="transparent", fg_color="#222222", text_color="white", font=customtkinter.CTkFont(size=14, weight="bold"), width=290, command=lambda: [submit(),collapse_menu1()])
             self.add2button.grid(row=0, column=0, padx=(240,200), pady=(280,20), sticky="ew")
         
 
@@ -371,11 +374,18 @@ class CIMOS_EmpPage(customtkinter.CTk):
                 dumpDateofEmplymnt = self.hiredcal.get()
                 dumpJobDescription = self.jdchoose.get()
                 dumpTypeOfEmplymnt = self.radio_var.get()
+                
+                try:
+                    mycursor.execute("SELECT LoginID FROM logintbl ORDER BY LoginID DESC LIMIT 1")
+                    mydb.commit()
+                except:
+                    numLogin = mycursor.fetchone()
+                    self.nextLoginID = numLogin[0] + 1
+                    dumpLoginID = self.nextLoginID
+                
 
-                mycursor.execute("SELECT LoginID FROM logintbl ORDER BY LoginID DESC LIMIT 1")
-                numLogin = mycursor.fetchone()
-                self.nextLoginID = numLogin[0] + 1
-                dumpLoginID = self.nextLoginID
+
+                
                 
                 
                 if dumpJobDescription == "Manager" and dumpTypeOfEmplymnt == 1:
@@ -408,38 +418,40 @@ class CIMOS_EmpPage(customtkinter.CTk):
                     return
                 else:
                     new_employee = Employee(updEmpID, dumpEmpLName, dumpEmpFName, dumpBirthday, dumpAddress, dumpDateofEmplymnt, dumpJobID)
-                
-                def check_if_manager_exists(empID):
-                    mycursor.execute("SELECT * FROM logintbl WHERE EmpID = %s", [empID])
-                    result = mycursor.fetchone()
-                    if result:
-                        return True
-                    else:
-                        return False
-                if dumpJobID == 2:
-                    if check_if_manager_exists(updEmpID):
-                        tkinter.messagebox.showerror("Error", "Manager already exists")
-                        return
+                    
+
+                    mycursor.execute("SELECT EmpID FROM logintbl WHERE EmpID = %s", (updEmpID,))
+                    checkID = mycursor.fetchone()
+                    
+                    print (checkID)
+                    print (updEmpID)
+                    if dumpJobID == 2:
+                        try:
+                            checkID[0] != updEmpID
+                        except:
+                            new_login = Login(dumpLoginID, "Admin", updEmpID, dumpEmpLName+updEmpID, 'password')
+                            new_login.create_admin()
+
+                    if dumpJobID == 3 or dumpJobID == 4:
+                        try:
+                            checkID[0] != updEmpID
+                        except:
+                            new_login = Login(dumpLoginID, "User", updEmpID, dumpEmpLName+updEmpID, 'password')
+                            new_login.create_admin()
                         
-                    else:
-                        
-                        new_login = Login(dumpLoginID, "Admin", updEmpID, dumpEmpLName+updEmpID, "password")
-                        new_login.create_admin()
 
                 
-                else:
-                    pass
                 
                  
-                new_employee.update_employee()
+                    new_employee.update_employee()
 
 
-
+                
                 add_to_treeview()
 
             
 
-            self.updt2button=customtkinter.CTkButton(self.viewframe2, text="Update Employee", bg_color="transparent", fg_color="#222222", text_color="white", font=customtkinter.CTkFont(size=14, weight="bold"), width=290, command=update)
+            self.updt2button=customtkinter.CTkButton(self.viewframe2, text="Update Employee", bg_color="transparent", fg_color="#222222", text_color="white", font=customtkinter.CTkFont(size=14, weight="bold"), width=290, command=lambda: [update(),collapse_menu2()])
             self.updt2button.grid(row=0, column=0, padx=(240,200), pady=(280,20), sticky="ew")
 
             
