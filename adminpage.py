@@ -133,6 +133,8 @@ class CIMOS_Admin(customtkinter.CTk):
                             else:
                                 update = LoggedIn(fetch_loggeduser(), self.nupass_entry.get())
                                 update.change_pass()
+                                
+
                                 collapse_()
                                 
 

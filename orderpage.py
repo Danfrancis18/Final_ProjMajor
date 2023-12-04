@@ -7,6 +7,30 @@ from tkinter import messagebox
 from PIL import Image
 import os
 import database
+import mysql.connector
+from objects import LoggedIn
+
+mydb = mysql.connector.connect(
+    host="localhost",
+    user="root",
+    password="",
+    database="canteenmanagement"
+)
+mycursor = mydb.cursor()
+
+
+
+mycursor.execute('SELECT username,password FROM loggedin')
+logged_in = mycursor.fetchone()
+global current_user
+global current_pass
+print(logged_in)
+current_user = logged_in[0]
+current_pass = logged_in[1]
+mydb.commit()
+
+
+
 
 customtkinter.set_appearance_mode("light")
 
@@ -35,18 +59,29 @@ font3 = ('Arial', 13, 'bold')
 font4 = ('Arial', 30, 'bold')
         
         #-------Current Page---------------------------------------------------------------------------------------------------------------------------------
-def logout():
-    response = messagebox.askyesno("Logout", "Are you sure you want to logout?")
-    if response == 1:
-        self.destroy()
-        os.system('python Login.py')
-    else:
-        return
 
+        
+def delete_loggedin():
+    logout = LoggedIn(current_user, current_pass)
+    logout.log_out()
+    self.destroy()
+
+def delete_loggedin2():
+    logout = LoggedIn(current_user, current_pass)
+    logout.log_out()
+    
 def home():
     self.destroy()
     os.system('python adminpage.py')
 
+def logout():
+    response = messagebox.askyesno("Logout", "Are you sure you want to logout?")
+    if response == 1:
+        delete_loggedin2()
+        self.destroy()
+        os.system('python Login.py')
+    else:
+        return
 def toggle_menu():
     def collapse_menu():
         self.my_frame.destroy()
@@ -65,7 +100,39 @@ def toggle_menu():
     self.lobutton = customtkinter.CTkButton(self.my_frame, text="Log out", fg_color="#9f1111", bg_color="transparent", text_color="white", font=customtkinter.CTkFont(size=14, weight="bold"), width=200, command=logout)
     self.lobutton.grid(row=0, column=0, padx=(5,5), pady=(5,100), sticky="ns")
     
-    def pop():      
+    def pop():   
+        def fetch_loggedpass():
+                mycursor.execute('SELECT password FROM loggedin')
+                current_passw = mycursor.fetchone()
+                mydb.commit()
+                loggedpass = current_passw[0]
+                return loggedpass
+
+        def fetch_loggeduser():
+            mycursor.execute('SELECT username FROM loggedin')
+            current_userw = mycursor.fetchone()
+            mydb.commit()
+            loggeduser = current_userw[0]
+            return loggeduser
+
+        def update_password():
+            if self.cupass_entry.get() == "" or self.nupass_entry.get() == "" or self.confirm_entry.get() == "":
+                messagebox.showerror("Error", "Please fill out all the fields!")
+            else:
+                if self.cupass_entry.get() != fetch_loggedpass():
+                    messagebox.showerror("Error", "Current password is incorrect!")
+                else:
+                    if self.nupass_entry.get() != self.confirm_entry.get():
+                        messagebox.showerror("Error", "New password and confirm password does not match!")
+                    else:
+                        if self.nupass_entry.get() == fetch_loggedpass():
+                            messagebox.showerror("Error", "New password cannot be the same as the current password!")
+                        else:
+                            update = LoggedIn(fetch_loggeduser(), self.nupass_entry.get())
+                            update.change_pass()
+                            self.passframe.destroy()
+
+
         self.passframe = customtkinter.CTkToplevel(self,fg_color="#333333")
         self.passframe.title("Change Password")
         self.passframe.geometry("180x260+462+235")
@@ -86,7 +153,7 @@ def toggle_menu():
         self.confirm_entry = customtkinter.CTkEntry(self.passframe, font=('Microsoft YaHei UI Light', 10), text_color="#000", fg_color="White", border_color='#9F0000', border_width=0, width=140, height=20)
         self.confirm_entry.place(x=20, y=160)
         
-        changebutton = customtkinter.CTkButton(self.passframe, text="Change Password", bg_color="transparent", text_color="White", font=customtkinter.CTkFont('Microsoft YaHei UI', size=10, weight="bold"), command = None, fg_color="#9F0000")
+        changebutton = customtkinter.CTkButton(self.passframe, text="Change Password", bg_color="transparent", text_color="White", font=customtkinter.CTkFont('Microsoft YaHei UI', size=10, weight="bold"), command = update_password, fg_color="#9F0000")
         changebutton.place(x=20, y=215)
     
     self.chabutton = customtkinter.CTkButton(self.my_frame, text="Change Password", fg_color="#333333", bg_color="transparent", text_color="white", font=customtkinter.CTkFont('Microsoft YaHei UI', size=12, weight="bold"), width=160, height=8, command=pop)
@@ -169,5 +236,6 @@ self.ulam6.grid(row=1, column=2, padx=30, pady=(50,50))
 #self.updclick.place(x=120, y=345)
 #self.delclick = customtkinter.CTkButton(self.tabview, text="Delete", bg_color="transparent", font=customtkinter.CTkFont(size=14, weight="bold"), fg_color="#0D347C", text_color="white", width=200, height=35, hover_color="#570000")
 #self.delclick.place(x=120, y=395)
-      
+
+self.protocol("WM_DELETE_WINDOW", delete_loggedin)
 self.mainloop()

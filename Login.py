@@ -75,6 +75,7 @@ class CIMOS_Login(customtkinter.CTk):
         user.insert(0,'Username')
         user.bind('<FocusIn>', on_enter)
         user.bind('<FocusOut>', on_leave)
+        
 
         tk.Frame(self.tabview, width=290, height=2, bg='#9F0000').place(x=60,y=310)
         
