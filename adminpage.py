@@ -3,7 +3,30 @@ from tkinter import messagebox
 import customtkinter
 from PIL import Image
 import os
+import mysql.connector
+from objects import LoggedIn
 
+mydb = mysql.connector.connect(
+    host="localhost",
+    user="root",
+    password="",
+    database="canteenmanagement"
+)
+mycursor = mydb.cursor()
+
+
+
+mycursor.execute('SELECT username,password FROM loggedin')
+logged_in = mycursor.fetchone()
+global current_user
+global current_pass
+print(logged_in)
+current_user = logged_in[0]
+current_pass = logged_in[1]
+mydb.commit()
+
+
+    
 customtkinter.set_appearance_mode("Dark")
 
 DIRPATH = os.path.dirname(os.path.abspath(__file__))
@@ -19,6 +42,15 @@ class CIMOS_Admin(customtkinter.CTk):
     def __init__(self):
         super().__init__() 
         
+        def delete_loggedin():
+            logout = LoggedIn(current_user, current_pass)
+            logout.log_out()
+            self.destroy()
+
+        def delete_loggedin2():
+            logout = LoggedIn(current_user, current_pass)
+            logout.log_out()
+
         def goto_employee():
             self.destroy()
             import EmployeePage
@@ -34,6 +66,7 @@ class CIMOS_Admin(customtkinter.CTk):
         def logout():
             response = messagebox.askyesno("Logout", "Are you sure you want to logout?")
             if response == 1:
+                delete_loggedin2()
                 self.destroy()
                 os.system('python Login.py')
             else:
@@ -43,7 +76,7 @@ class CIMOS_Admin(customtkinter.CTk):
         # configure window class CIMOS_Admin
         self.title("CIMOS Admin")
         self.geometry(f"1000x580+350+130")
-        self.bind("<1>", lambda event: event.widget.focus_set())
+        #self.bind("<1>", lambda event: event.widget.focus_set())
         self.resizable(False, False)
         
         self.grid_rowconfigure(0, weight=1)  # configure grid system
@@ -70,9 +103,45 @@ class CIMOS_Admin(customtkinter.CTk):
         label.place(x=42, y=640)
         
         def pop():
+
+            def fetch_loggedpass():
+                mycursor.execute('SELECT password FROM loggedin')
+                current_passw = mycursor.fetchone()
+                mydb.commit()
+                loggedpass = current_passw[0]
+                return loggedpass
+
+            def fetch_loggeduser():
+                mycursor.execute('SELECT username FROM loggedin')
+                current_userw = mycursor.fetchone()
+                mydb.commit()
+                loggeduser = current_userw[0]
+                return loggeduser
+
+            def update_password():
+                if self.cupass_entry.get() == "" or self.nupass_entry.get() == "" or self.confirm_entry.get() == "":
+                    messagebox.showerror("Error", "Please fill out all the fields!")
+                else:
+                    if self.cupass_entry.get() != fetch_loggedpass():
+                        messagebox.showerror("Error", "Current password is incorrect!")
+                    else:
+                        if self.nupass_entry.get() != self.confirm_entry.get():
+                            messagebox.showerror("Error", "New password and confirm password does not match!")
+                        else:
+                            if self.nupass_entry.get() == fetch_loggedpass():
+                                messagebox.showerror("Error", "New password cannot be the same as the current password!")
+                            else:
+                                update = LoggedIn(fetch_loggeduser(), self.nupass_entry.get())
+                                update.change_pass()
+                                collapse_()
+                                
+
             def collapse_():
+                self.cpass.configure(state='normal')
                 self.passframe.destroy()
-                
+            self.cpass.configure(state='disabled')
+            
+            
             self.passframe = customtkinter.CTkFrame(self.my_frame, width=180, height=260, corner_radius=6, bg_color="transparent")
             self.passframe.grid(row=1, column=0, padx=(0, 0), pady=(0,80))
             cpass= tk.Button(self.passframe, width=3, height=1, text='x', border=0, bg="#333333", cursor='hand2', fg="white", font=('Microsoft YaHei UI', 12), command=collapse_)
@@ -93,11 +162,11 @@ class CIMOS_Admin(customtkinter.CTk):
             self.confirm_entry = customtkinter.CTkEntry(self.passframe, font=('Microsoft YaHei UI Light', 10), text_color="#000", fg_color="White", border_color='#9F0000', border_width=0, width=140, height=20)
             self.confirm_entry.place(x=20, y=160)
         
-            changebutton = customtkinter.CTkButton(self.passframe, text="Change Password", bg_color="transparent", font=customtkinter.CTkFont('Microsoft YaHei UI', size=10, weight="bold"), command = None)
+            changebutton = customtkinter.CTkButton(self.passframe, text="Change Password", bg_color="transparent", font=customtkinter.CTkFont('Microsoft YaHei UI', size=10, weight="bold"), command = update_password)
             changebutton.place(x=20, y=215)
-
-        cpass= tk.Button(self.my_frame, width=9, text='Click here', border=0, bg="white", cursor='hand2', fg="#2B65EC", font=('Microsoft YaHei UI Light', 10), command=pop)
-        cpass.place(x=160, y=638)
+            
+        self.cpass= tk.Button(self.my_frame, width=9, text='Click here', border=0, bg="white", cursor='hand2', fg="#2B65EC", font=('Microsoft YaHei UI Light', 10), command=pop)
+        self.cpass.place(x=160, y=638)
         
         
         
@@ -143,6 +212,8 @@ class CIMOS_Admin(customtkinter.CTk):
         self.Image_label = customtkinter.CTkLabel(self.choose_frame, text="", image=self.image3, bg_color="transparent")
         self.Image_label.grid(row=0, column=0, padx=(540,0), pady=(0,70))
 
+
+        self.protocol("WM_DELETE_WINDOW", delete_loggedin)
 
 if __name__ == "__main__":
     app = CIMOS_Admin()

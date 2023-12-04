@@ -7,6 +7,23 @@ from tkinter import messagebox
 from PIL import Image
 import os
 import database
+import mysql.connector
+from objects import LoggedIn
+
+mydb = mysql.connector.connect(
+    host="localhost",
+    user="root",
+    password="",
+    database="canteenmanagement"
+)
+
+mycursor = mydb.cursor()
+global current_user
+mycursor.execute('SELECT username,password FROM loggedin')
+logged_in = mycursor.fetchone()
+current_user = logged_in[0]
+current_pass = logged_in[1]
+mydb.commit()
 
 customtkinter.set_appearance_mode("light")
 
@@ -33,6 +50,11 @@ font1 = ('Arial', 25, 'bold')
 font2 = ('Arial', 18, 'bold')
 font3 = ('Arial', 13, 'bold')
 font4 = ('Arial', 30, 'bold')
+
+def delete_loggedin():
+    logout = LoggedIn(current_user, current_pass)
+    logout.log_out()
+    self.destroy()
 
 def display_data(event):
     selected_item = tree.focus()
@@ -231,4 +253,5 @@ tree.bind('<ButtonRelease>', display_data)
 
 add_to_treeview()
       
+self.protocol("WM_DELETE_WINDOW", delete_loggedin)
 self.mainloop()

@@ -4,6 +4,8 @@ import customtkinter
 from PIL import Image
 import os
 import mysql.connector
+from objects import LoggedIn
+
 
 
 mydb = mysql.connector.connect(
@@ -38,7 +40,7 @@ class CIMOS_Login(customtkinter.CTk):
         # configure window class CIMOS_Admin
         self.title("CIMOS Admin")
         self.geometry(f"1000x580+350+130")
-        self.bind("<1>", lambda event: event.widget.focus_set())
+        #self.bind("<1>", lambda event: event.widget.focus_set())
         self.resizable(False, False)
         
         self.grid_rowconfigure(0, weight=1)  # configure grid system
@@ -112,7 +114,11 @@ class CIMOS_Login(customtkinter.CTk):
         eyeButton=tk.Button(self.tabview,image=closeeye,border=0,bg="white",command=hide)
         eyeButton.place(x=320,y=330)
 
+
+
         def login():
+            
+            global username
             username = user.get()
             password = secret.get()
             if username != 'Username' and password != 'Password':
@@ -121,9 +127,13 @@ class CIMOS_Login(customtkinter.CTk):
                 print(result)
                 if result:
                     if (password == result[0] and result[1] == "Admin"):
+                        get_log_info = LoggedIn(username, password)
+                        get_log_info.get_login()
                         self.destroy()
                         os.system('python adminpage.py')
                     elif (password == result[0] and result[1] == "User"):
+                        get_log_info = LoggedIn(username, password)
+                        get_log_info.get_login()
                         self.destroy()
                         os.system('python orderpage.py')
                     else:
@@ -139,9 +149,9 @@ class CIMOS_Login(customtkinter.CTk):
         loginbutton.grid(row=0, column=0, padx=(85,0), pady=(320,30))
 
 
-
         
         
 if __name__ == "__main__":
     app = CIMOS_Login()
     app.mainloop()
+

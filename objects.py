@@ -78,8 +78,43 @@ class Login:
         mydb.commit()
         messagebox.showinfo("Success", "Account Updated Successfully")
 
-
     
+
+
+    def change_pass(self):
+        mycursor.execute("UPDATE logintbl SET Password = %s WHERE EmpID = %s",
+        (self.Password, self.EmpID))
+        mydb.commit()
+        messagebox.showinfo("Success", "Password Changed Successfully")
+
+class OrderLine:
+    def __init__(self,OrderID,ProductID,Quantity):
+        self.OrderID = OrderID
+        self.ProductID = ProductID
+        self.Quantity = Quantity
+
+
+class LoggedIn:
+    def __init__(self,username,password):
+        self.username = username
+        self.password = password
+
+    def get_login(self):
+        mycursor.execute('INSERT INTO loggedin (username, password) VALUES (%s, %s)', (self.username, self.password))
+        mydb.commit()
+    
+
+
+    def change_pass(self):
+        mycursor.execute("UPDATE logintbl SET Password = %s WHERE username = %s",
+        (self.password, self.username))
+        mycursor.execute('UPDATE loggedin SET password = %s WHERE username = %s', (self.password, self.username))
+        mydb.commit()
+        messagebox.showinfo("Success", "Password Changed Successfully")
+
+    def log_out(self):
+        mycursor.execute('DELETE FROM loggedin where username = %s', (self.username,))
+        mydb.commit()
 
 
 

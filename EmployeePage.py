@@ -8,6 +8,7 @@ from tkcalendar import DateEntry
 import mysql.connector
 from objects import Employee
 from objects import Login
+from objects import LoggedIn
 
 mydb = mysql.connector.connect(
     host="localhost",
@@ -17,7 +18,12 @@ mydb = mysql.connector.connect(
 )
 
 mycursor = mydb.cursor()
-
+global current_user
+mycursor.execute('SELECT * FROM loggedin')
+logged_in = mycursor.fetchone()
+current_user = logged_in[0]
+current_pass = logged_in[1]
+mydb.commit()
 
 customtkinter.set_appearance_mode("light")
 
@@ -45,6 +51,11 @@ class CIMOS_EmpPage(customtkinter.CTk):
         self.grid_rowconfigure(0, weight=1)  # configure grid system
         self.grid_columnconfigure(0, weight=1)
         
+        def delete_loggedin():
+            logout = LoggedIn(current_user, current_pass)
+            logout.log_out()
+            self.destroy()
+
         def home():
             self.destroy()
             os.system('python adminpage.py')
@@ -481,7 +492,7 @@ class CIMOS_EmpPage(customtkinter.CTk):
         self.delbutton = customtkinter.CTkButton(self.tabview, text="Delete", bg_color="transparent", font=customtkinter.CTkFont(size=14, weight="bold"), state="disabled", command=delete_emp)
         self.delbutton.grid(row=0, column=0, padx=(140,0), pady=(0,320))
         
-
+        self.protocol("WM_DELETE_WINDOW", delete_loggedin)
 
         
         
